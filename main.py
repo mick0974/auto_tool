@@ -30,7 +30,7 @@ class Opt:
         try:
             self.target_address = int(args.target_address, 10 if args.integer_address else 16)
         except ValueError:
-            print("L'indirizzo fornito non non valido")
+            print("L'indirizzo fornito non è valido")
             sys.exit(1)
 
         try:
@@ -55,7 +55,6 @@ class Opt:
 
                 self.configs["bytes_to_write"] = config.getint("Options", "bytes_to_write")
                 self.configs["wait_time"] = config.getint("Options", "wait_time")
-                self.configs["print_log"] = config.getboolean("Options", "print_log")
                 self.configs["log_dir"] = config.get("Options", "log_dir")
             else:
                 print("Il file di configurazione fornito non è stato trovato")

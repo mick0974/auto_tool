@@ -1,3 +1,6 @@
+import exceptions
+
+
 class DirectFmtGenerator:
     def __init__(self):
         self.writers = list()
@@ -13,9 +16,9 @@ class DirectFmtGenerator:
         fmt = "%" + str(self.direct_parameter_num - 1) + "$p" if self.direct_parameter_num > 1 else ""
 
         if len(fmt) > max_length:
-            return -1
+            raise exceptions.InputTooLittleError
         else:
-            dim = len(fmt)
+            dim = len(fmt) + len(self.temp_address)
             reader_count = 1
             while True:
                 reader = "%" + str(self.direct_parameter_num) + "$p"
@@ -27,13 +30,43 @@ class DirectFmtGenerator:
                     dim += len(reader)
                     fmt += reader
 
-            return self.temp_address + fmt if reader_count > 2 else -1
+            if reader_count >= 2:
+                return self.temp_address + fmt
+            else:
+                raise exceptions.InputTooLittleError
 
     def generate_next_fmt_for_find_start_segfault_encountered(self, max_length):
         fmt = "%" + str(self.direct_parameter_num - 1) + "$p" + "%" + str(self.direct_parameter_num) + "$p"
-        self.direct_parameter_num += 1
 
-        return self.temp_address + fmt if len(self.temp_address + fmt) <= max_length else -1
+        if len(self.temp_address + fmt) <= max_length:
+            self.direct_parameter_num += 1
+            return self.temp_address + fmt
+        else:
+            raise exceptions.InputTooLittleError
+
+    def generate_next_fmt_for_find_start_markers_not_found(self, max_length, address_size):
+        fmt = "%" + str(self.direct_parameter_num - 1) + "$p" if self.direct_parameter_num > 1 else ""
+
+        dim = address_size * 2
+        if dim > max_length:
+            raise exceptions.InputTooLittleError
+        else:
+            dim = len(fmt) + len(self.temp_address)
+            reader_count = 1
+            while True:
+                reader = "%" + str(self.direct_parameter_num) + "$p"
+                if len(reader) + dim > max_length:
+                    break
+                else:
+                    reader_count += 1
+                    self.direct_parameter_num += 1
+                    dim += len(reader)
+                    fmt += reader
+
+            if reader_count >= 2:
+                return self.temp_address + fmt
+            else:
+                raise exceptions.InputTooLittleError
 
     def generate_next_fmt_for_command_line_input(self, fmt_size):
         writers = ""
@@ -47,7 +80,7 @@ class DirectFmtGenerator:
         parameters = "%" + str(self.direct_parameter_num - 1) + "$p" if self.direct_parameter_num > 1 else ""
 
         if len(writers + addresses + parameters) > fmt_size:
-            return -1
+            raise exceptions.InputTooLittleError
         else:
             dim = len(writers + addresses + parameters)
             reader_count = 1
@@ -63,17 +96,16 @@ class DirectFmtGenerator:
                     parameters += reader
 
             if reader_count < 2:
-                return -1
+                raise exceptions.InputTooLittleError
             else:
                 padding = "G" * (fmt_size - dim)
-
                 return writers + addresses + parameters + padding
 
     def generate_fmt_for_find_end(self):
         writers = ""
 
         for w in self.writers:
-            writers += "V" * len(w[0]) + w[1].replace("ln", "p.").replace("hhn", "p..").replace("hn", "p.").replace("n", "p")
+            writers += w[0] + w[1].replace("ln", "p.").replace("hhn", "p..").replace("hn", "p.").replace("n", "p")
 
         return writers + self.align_padding + self.temp_address * len(self.address)
 
