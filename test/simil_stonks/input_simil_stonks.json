@@ -1,0 +1,14 @@
+{
+  "input": [
+    {
+      "type": "execution_input",
+      "marker": "2) view my portfolio\n",
+      "value": "1"
+    },
+    {
+      "type": "execution_input",
+      "marker": "what is your api token?\n",
+      "value": ""
+    }
+  ]
+}

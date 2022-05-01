@@ -4,7 +4,7 @@ import argparse
 import configparser
 import json
 
-import Exploit
+import exploit
 
 
 class Opt:
@@ -14,12 +14,8 @@ class Opt:
         parser.add_argument('target_address', help='Indirizzo in cui scrivere')
         parser.add_argument('target_value', help='Valore da scrivere')
         parser.add_argument('input_file', help='Posizione del file di input')
-        parser.add_argument('--integer_value', help='Specifica che il valore da scrivere è espresso come intero', type=bool)
-        parser.add_argument('--integer_address', help='Specifica che l\'indirizzo in cui scrivere è espresso come intero', type=bool)
 
         args = parser.parse_args()
-
-        print(args.integer_value)
 
         if os.path.exists(args.target):
             self.target = args.target
@@ -28,13 +24,15 @@ class Opt:
             sys.exit(1)
 
         try:
-            self.target_address = int(args.target_address, 10 if args.integer_address else 16)
+            self.target_address = int(args.target_address, 16 if "0x" in args.target_address else 10)
+            print("indirizzo")
+            print(self.target_address)
         except ValueError:
             print("L'indirizzo fornito non è valido")
             sys.exit(1)
 
         try:
-            self.target_value = int(args.target_value, 10 if args.integer_value else 16)
+            self.target_value = int(args.target_value, 16 if "0x" in args.target_value else 10)
         except ValueError:
             print("Il valore fornito non può essere convertito in esadecimale")
             sys.exit(1)
@@ -44,7 +42,7 @@ class Opt:
                 data = input_file.read()
                 self.input_in_json = json.loads(data)
         except EnvironmentError:
-            print("Il file di input fornito non è stato trovato")
+            print("Il file contenente gli input fornito non è stato trovato")
             sys.exit(1)
 
         self.configs = dict()
@@ -54,13 +52,17 @@ class Opt:
                 config.read("./options.ini")
 
                 self.configs["bytes_to_write"] = config.getint("Options", "bytes_to_write")
-                self.configs["wait_time"] = config.getint("Options", "wait_time")
+                self.configs["wait_time_marker"] = config.getint("Options", "wait_time_marker")
+                self.configs["wait_time_no_marker"] = config.getint("Options", "wait_time_no_marker")
+                if self.configs["wait_time_no_marker"] < 1:
+                    raise ValueError
+                self.configs["input_len_control"] = config.getboolean("Options", "input_len_control")
                 self.configs["log_dir"] = config.get("Options", "log_dir")
             else:
                 print("Il file di configurazione fornito non è stato trovato")
                 sys.exit(1)
         except ValueError:
-            print("Uno o più valori forniti nel file di configurazione non è valido")
+            print("Uno o più valori forniti nel file di configurazione non sono validi")
             sys.exit(1)
 
         print(self.input_in_json)
@@ -70,5 +72,5 @@ class Opt:
 if __name__ == "__main__":
     opts = Opt()
 
-    exploit = Exploit.Exploit(target=opts.target, value=opts.target_value, target_address=opts.target_address,
+    exploit = exploit.Exploit(target=opts.target, value=opts.target_value, target_address=opts.target_address,
                               input_in_json=opts.input_in_json, configs=opts.configs)

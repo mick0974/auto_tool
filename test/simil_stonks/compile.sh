@@ -1,0 +1,1 @@
+gcc simil_stonks.c -no-pie -o simil_stonks

@@ -1,0 +1,12 @@
+{
+  "input": [
+    {
+      "type": "command_line_input",
+      "value": "AAAA"
+    },
+    {
+      "type": "command_line_input",
+      "value": ""
+    }
+  ]
+}
