@@ -1,0 +1,16 @@
+{
+  "input": [
+    {
+      "type": "command_line_input",
+      "value": ""
+    },
+    {
+      "type": "command_line_input",
+      "value": ""
+    },
+    {
+      "type": "command_line_input",
+      "value": ""
+    }
+  ]
+}
