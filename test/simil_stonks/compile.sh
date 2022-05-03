@@ -1,1 +1,1 @@
-gcc simil_stonks.c -no-pie -o simil_stonks
+gcc simil_stonks.c -no-pie -fno-stack-protector -o simil_stonks
