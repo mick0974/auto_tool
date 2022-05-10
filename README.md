@@ -23,8 +23,8 @@ Infine è importante ricordare che la printf non garantisce la stampa di più di
 
 ### Format pack
 Il tool decide i parametri con cui gli indirizzi verranno formattati in byte:  
-**endianess**: _<_ per little endian, _>_ per big endian o stringa vuota se non specificata (viene impiegata quella del processore in uso).  
-**byte size**: _Q_ per 8, _L_ per 4, _H_ per 2, _B_ per 1.
+**Endianess**: _<_ per little endian, _>_ per big endian o stringa vuota se non specificata (viene impiegata quella del processore in uso).  
+**Byte size**: _Q_ per 8, _L_ per 4, _H_ per 2, _B_ per 1.
 
 ### Get write size
 Il tool, per evitare di superare il limite superiore di caratteri di stampa garantiti dalla printf, spezza il valore da scrivere in più sottovalori, fino a che la loro somma non è inferiore a 4000.
