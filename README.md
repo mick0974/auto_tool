@@ -16,3 +16,15 @@ Nel caso in cui l'indirizzo a cui si desidera scrivere non sia presente in memor
 Un aspetto importante da ricordare è che nel caso di architettura a 64 bit gli indirizzi conterranno spesso uno o più null byte _\x00_, che verranno interpretati dalla printf come caratteri di terminazione della stringa ed interromperanno la stampa: per evitare di incorrere in questo problema è sufficiente appendere gli indirizzi a cui scrivere al termine della stringa di exploit, così che non impediscano la stampa dei caratteri necessari a raggiungere il valore che si desidera scrivere.
 Un altro aspetto da considerare è il fatto che il programmatore potrebbe aggiungere un limite massimo al numero di caratteri accettati dalla funzione di input: è possibile ridurre la probabilità di incorrere in questo problema specificando, ad esempio, un _%300d_ piuttosto che passando 300 caratteri di padding.
 Infine è importante ricordare che la printf non garantisce la stampa di più di 4095 caratteri: per non incorrere in problemi di questo tipo il tool spezza la singola scrittura in più sottoscritture (come specificato di seguito) fino a quando la somma dei singoli sottovalori non risulta minore di 4000.
+
+
+## Algoritmi impiegati
+
+### Format pack
+Il tool decide i parametri con cui gli indirizzi verranno formattati in byte:
+**endianess**: _<_ per little endian, _>_ per big endian o stringa vuota se non specificata (viene impiegata quella del processore in uso).
+**byte size**: _Q_ per 8, _L_ per 4, _H_ per 2, _B_ per 1.
+
+### Get write size
+Il tool, per evitare di superare il limite superiore di caratteri di stampa garantiti dalla printf, spezza il valore da scrivere in più sottovalori, fino a che la loro somma non è inferiore a 4000.
+Partendo dalla dimensione di scrittura originale, il tool itera più volte spezzando ad ogni ciclo il sottovalore massimo nella dimensione di scrittura successiva (in ordine decrescente 8, 4, 2 e 1): un valore esadecimale come _0x003f0046_ pari a 4128838 verrebbe spezzato in _0x003f_ pari a 63 e _0x0046_ pari a 70, e l'iterazione terminerebbe con i sottovalori _0x003f_ e _0x0046_ poiché la loro somma 133 risulterebbe minore di 4095.
