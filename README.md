@@ -113,8 +113,13 @@ Gli input sono contenuti in un array salvato con chiave _input_, e sono struttur
 - **value**: input da passare al programma target
 
 ### File di configurazione
+Il tool è ulteriormente configurabile attraverso la modifica del file options.ini:  
 - **bytes_to_write**: il numero di byte da scrivere al target_address
 - **wait_time_marker**: tempo di attesa in caso di uso di marker quando l'input è passato a tempo di esecuzione
 - **wait_time_no_marker**: tempo di attesa in caso di assenza di marker prima di inviare il prossimo input
 - **log_dir**: path relativo del file di log
 - **input_len_control**: permette di specificare se permettere al controllo sul numero di caratteri di input di bloccare il processo o meno
+
+
+## Test
+Nella cartella _test_ sono inclusi alcuni programmi di test/esempio sui quali è possibile impiegare il tool.
