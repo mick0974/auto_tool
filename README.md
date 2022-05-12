@@ -77,12 +77,12 @@ Una volta generata la stringa finale questa viene testata:
    4. (1) e (2) vengono ripetuti in serie a seconda del numero di scritture necessarie
    5. padding finale per rispettare la dimensione degli input
 
-dove la lunghezza del padding del punto (2) viene ridotta della lunghezza degli indirizzi; nel caso in cui il padding sia più corto degli indirizzi l'exploit risulta impossibile.  
-Nel caso in cui l'input sia specificato a tempo di esecuzione (ad esempio in risposta ad una scanf) il marcatore sinistro e il padding di allineamento non vengono anteposti alla stringa finale poiché gli input raccolti a runtime, a differenza di argv, sono allineati rispetto agli indirizzi dello stack e la presenza di un marker sinistro li sposterebbe.  
-Nel caso in cui l'input sia specificato come argv è necessario controllare se il numero di caratteri di padding di allineamento ritornato dall'algoritmo precedente sommato alla lunghezza del marcatore sinistro sia uguale alla dimensione degli indirizzi (4 o 8 byte).  
-In caso di uguaglianza non è necessario anteporre nè il marcatore nè il padding di allineamento rispetto ad esso, in caso contrario si mantiene il marcatore, si aggiunge il corrispettivo padding e si riduce la lunghezza dei padding del punto (2) della lunghezza di questi.  
+  dove la lunghezza del padding del punto (2) viene ridotta della lunghezza degli indirizzi; nel caso in cui il padding sia più corto degli indirizzi l'exploit risulta impossibile.  
+  Nel caso in cui l'input sia specificato a tempo di esecuzione (ad esempio in risposta ad una scanf) il marcatore sinistro e il padding di allineamento non vengono anteposti alla stringa finale poiché gli input raccolti a runtime, a differenza di argv, sono allineati rispetto agli indirizzi dello stack e la presenza di un marker sinistro li sposterebbe.  
+  Nel caso in cui l'input sia specificato come argv è necessario controllare se il numero di caratteri di padding di allineamento ritornato dall'algoritmo precedente sommato alla lunghezza del marcatore sinistro sia uguale alla dimensione degli indirizzi (4 o 8 byte).  
+  In caso di uguaglianza non è necessario anteporre nè il marcatore nè il padding di allineamento rispetto ad esso, in caso contrario si mantiene il marcatore, si aggiunge il corrispettivo padding e si riduce la lunghezza dei padding del punto (2) della lunghezza di questi.  
    
-Se il processo termina correttamente il tool suppone che l'exploit sia andato a buon e riporta la risposta ricevuta dal processo, altrimenti in caso di segmentation fault l'exploit risulta impossibile.  
+  Se il processo termina correttamente il tool suppone che l'exploit sia andato a buon e riporta la risposta ricevuta dal processo, altrimenti in caso di segmentation fault l'exploit risulta impossibile.  
 
 
 ## Parametri accettati e configurazione
