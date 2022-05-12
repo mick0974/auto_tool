@@ -88,15 +88,15 @@ Una volta generata la stringa finale questa viene testata:
 ## Parametri accettati e configurazione
 ### Parametri
 Il tool accetta i seguenti parametri da linea di comando:
-- target: path relativo del programma target su cui effettuare l'exploit
-- target_address: indirizzo target del programma su cui effettuare la scrittura, è interpretato come valore decimale o esadecimale se preceduto da _0x_
-- target_value: valore da scrivere al target_address, è interpretato come valore decimale o esadecimale se preceduto da _0x_
-- input_file: path relativo del file json contenente gli input da passare al programma target
+- **target**: path relativo del programma target su cui effettuare l'exploit
+- **target_address**: indirizzo target del programma su cui effettuare la scrittura, è interpretato come valore decimale o esadecimale se preceduto da _0x_
+- **target_value**: valore da scrivere al target_address, è interpretato come valore decimale o esadecimale se preceduto da _0x_
+- **input_file**: path relativo del file json contenente gli input da passare al programma target
 
 ### File di input
 Il file di input json è strutturato nel seguente modo:
 
-{
+_{
   "input": [
     {
       "type": ...,
@@ -105,16 +105,16 @@ Il file di input json è strutturato nel seguente modo:
     },
     ...
   ]
-}
+}_
 
 Gli input sono contenuti in un array salvato con chiave _input_, e sono strutturati con i seguenti campi:
-- type: tipo dell'input, _command_line_input_ se passato da linea di comando o _execution_input_ se passato a tempo di esecuzione
-- marker: risposta in stampa dal programma target attesa, non specificato nel caso di input passato da linea di comando
-- value: input da passare al programma target
+- **type**: tipo dell'input, _command_line_input_ se passato da linea di comando o _execution_input_ se passato a tempo di esecuzione
+- **marker**: risposta in stampa dal programma target attesa, non specificato nel caso di input passato da linea di comando
+- **value**: input da passare al programma target
 
 ### File di configurazione
-- bytes_to_write: il numero di byte da scrivere al target_address
-- wait_time_marker: tempo di attesa in caso di uso di marker quando l'input è passato a tempo di esecuzione
-- wait_time_no_marker: tempo di attesa in caso di assenza di marker prima di inviare il prossimo input
-- log_dir: path relativo del file di log
-- input_len_control: permette di specificare se permettere al controllo sul numero di caratteri di input di bloccare il processo o meno
+- **bytes_to_write**: il numero di byte da scrivere al target_address
+- **wait_time_marker**: tempo di attesa in caso di uso di marker quando l'input è passato a tempo di esecuzione
+- **wait_time_no_marker**: tempo di attesa in caso di assenza di marker prima di inviare il prossimo input
+- **log_dir**: path relativo del file di log
+- **input_len_control**: permette di specificare se permettere al controllo sul numero di caratteri di input di bloccare il processo o meno
