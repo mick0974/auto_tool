@@ -40,10 +40,42 @@ class Opt:
         try:
             with open(args.input_file) as input_file:
                 data = input_file.read()
-                self.input_in_json = json.loads(data)
+                input_in_json = json.loads(data)
+
+                # suddivido gli input in input da linea di comand e input da passare durante l'esecuzione. Gli input sono
+                # rappresentati come dizionari, dove:
+                # - "type" specifica se sono iput da passare da linea di comando o durante l'esecuzione
+                # - "value" specifica il valore effettivo dell'input
+                # - "marker", se non nullo, specifica quando l'input, da passare durante l'esecuzione, deve essere inviato al processo
+                # - "free" specifica se il valore dell'input può essere modificato o meno
+                #
+                # Se l'input ha già un valore definito associato (specificato nel file json oppure settato al termine dei test
+                # su quell'input), la relativa etichetta "free" sarà settata a False, altrimenti verrà associato un valore
+                # temporaneo e l'etichettà free sara settata a True.
+                # Solo gli input con "free" == False saranno testati come possibili input exploitabili
+                self.command_line_input_list = list()
+                self.during_execution_input_list = list()
+                for input_elem in input_in_json["input"]:
+                    if input_elem["value"] == "":
+                        input_elem["value"] = "P" * 4
+                        input_elem["free"] = True
+                    else:
+                        input_elem["free"] = False
+
+                    if input_elem["type"] == "execution_input":
+                        self.during_execution_input_list.append(input_elem)
+                        if "marker" not in input_elem.keys() or "value" not in input_elem.keys():
+                            raise KeyError
+                    elif input_elem["type"] == "command_line_input":
+                        self.command_line_input_list.append(input_elem)
+                        if "value" not in input_elem.keys():
+                            raise KeyError
         except EnvironmentError:
             print("Il file contenente gli input fornito non è stato trovato")
             sys.exit(1)
+        except KeyError as e:
+            print("Il file contenente gli input fornito non è strutturato correttamente")
+            exit(1)
 
         self.configs = dict()
         config = configparser.ConfigParser()
@@ -53,6 +85,8 @@ class Opt:
 
                 self.configs["bytes_to_write"] = config.getint("Options", "bytes_to_write")
                 self.configs["wait_time_marker"] = config.getint("Options", "wait_time_marker")
+                if self.configs["wait_time_marker"] < 1 and self.configs["wait_time_marker"] != -1:
+                    raise ValueError
                 self.configs["wait_time_no_marker"] = config.getint("Options", "wait_time_no_marker")
                 if self.configs["wait_time_no_marker"] < 1:
                     raise ValueError
@@ -65,12 +99,8 @@ class Opt:
             print("Uno o più valori forniti nel file di configurazione non sono validi")
             sys.exit(1)
 
-        print(self.input_in_json)
-        print(self.configs)
-
-
 if __name__ == "__main__":
     opts = Opt()
 
     exploit = exploit.Exploit(target=opts.target, value=opts.target_value, target_address=opts.target_address,
-                              input_in_json=opts.input_in_json, configs=opts.configs)
+                              command_line_input_list=opts.command_line_input_list, during_execution_input_list = opts.during_execution_input_list, configs=opts.configs)
