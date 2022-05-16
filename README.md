@@ -112,12 +112,30 @@ Per evitare di passare al programma target delle stringhe vuote come input, il t
 Prima di iniziare a testare gli input, il tool esegue una serie di operazioni sul valore da scrivere e l'indirizzo target:
 
 1. Decide i parametri con cui il valore (o i valori, come si vedrà in seguito) da scrivere verrà formattato in byte:  
+
    - Endiannes : _<_ per little endian, _>_ per big endian o stringa vuota se non specificata (viene impiegata quella del processore in uso);
    - Byte size: _Q_ per 8, _L_ per 4, _H_ per 2, _B_ per 1;
+
 2. Spezza il valore da scrivere in più sottovalori, in modo che la loro somma sia inferiore a 4000, per evitare di superare il limite superiore di caratteri di stampa garantiti dalla *printf()*: partendo dalla dimensione di scrittura specificata nella proprietà **write_size** del file di configurazione, il tool itera più volte spezzando ad ogni ciclo il sottovalore massimo nella dimensione di scrittura successiva (in ordine decrescente 8, 4, 2 e 1). Ad esempio, un valore esadecimale come _0x003f0046_ pari a 4128838 verrebbe spezzato in _0x003f_ pari a 63 e _0x0046_ pari a 70, e l'iterazione terminerebbe con i sottovalori _0x003f_ e _0x0046_ poiché la loro somma, 133, risulta minore di 4095. Il tool salva poi i nuovi sottovalori generati e le relative dimensioni di scrittura;
-3. Determina la serie di indirizzi target a cui scrivere, nel caso in cui il valore non sia più singolo. Per ciascun sottovalore, l'indirizzo in cui dovrebbe essere scritto corrisponde a quello del sottovalore precedente incrementato della dimensione di scrittura di quest'ultimo. Per caso del primo sottovalore, l'indirizzo corrisponderà all'originale indirizzo target;
 
+3. Determina la serie di indirizzi target a cui scrivere, nel caso in cui il valore non sia più singolo. Per ciascun sottovalore, l'indirizzo in cui dovrebbe essere scritto corrisponde a quello del sottovalore precedente incrementato della dimensione di scrittura di quest'ultimo. Per caso del primo sottovalore, l'indirizzo corrisponderà all'originale indirizzo target. Ad esempio, supponendo che i valori valori da scrivere siano *a*, *b*, *c*, con rispettivamente 4, 4, 2 come dimensione di scrittura, e che l'indirizzo target fornito dall'utente sia *0x0*, allora avremo *0x0* per il valore *a*, *0x4* per il valore *b* e *0x8* per il valore *c*.
 
+4. Crea una serie di "scrittori", uno per ogni sottovalore, che verrà utilizzato durante la creazione della stringa finale di exploit. Uno scrittore è una lista di tre elementi, dove:
+
+   - Nella prima posizione viene salvato il padding, in caratteri, necessario a raggiungere il sottovalore da scrivere. Il padding per il primo sottovalore corrisponderà esattamente al sottovalore, per il secondo alla differenza tra il primo sottovalore e il secondo, per il terzo alla differenza per il terzo sottovalore e i primi due e così via;
+   - Nella seconda posizione viene salvata la posizione, nello stack, dell'indirizzo in cui si vuole scrivere il  sottovalore. In questa fase viene lasciata vuota, in quanto viene determinata durante la creazione della stringa finale;
+   - Il formattatore delle *printf()* utilizzato per scrivere valori in un indirizzo. Il formattatore può essere *"ln, "n", "hn, "hnn"* in base alla dimensione di scrittura del sottovalore (rispettivamente 8, 4, 2, 1 byte).
+
+   La stringa rappresentata il padding per il sottovalore può assumere due forma differenti:
+
+   - Se il padding da scrivere rientra nell'intervallo 1 e 7 compresi, la stringa sarà formata da esattamente quel numero di caratteri. Quindi, ad esempio, se il padding è 6, la stringa sarà *"AAAAAA"*;
+   - Se il valore da scrivere è maggiore o uguale a 8, la stringa usata sarà *"%Nx"*, dove *N* rappresenta il padding da scrivere.
+
+   Si è deciso di usare il *%x* in quanto è uno dei pochi formattatori che non generato problemi durante i test del tool. In quanto non è possibile troncare il numero di cifre stampate dal formattatore, ma solo anteporvi del "padding", il limite è stato impostato ad 8 in quanto questo è il numero massimo di cifre che un valore estratto dal formattatore può avere.
+
+5. Calcola infine la dimensione in caratteri della serie di indirizzi e scrittori creati. Il valore ottenuto rappresenta il numero minimo di caratteri dell'input che il programma target dovrebbe stampare affinché l'exploit possa essere eseguito. Supponiamo che, in totale, scrittori e indirizzi siano lunghi 70 e che l'exploit del programma target avvenga tramite *printf(var)*. Se la *printf()* stampasse, ad esempio, solo 60 caratteri, significherebbe che *var* conterrebbe solo una parte della stringa di exploit, rendendolo quindi, teoricamente, impossibile. 
+
+   Ovviamente questo numero non rappresenta la dimensione totale della stringa di exploit, ma solo quella calcolabile fino a questo momento, in quanto sono assenti le posizioni nello stack degli indirizzi cui scrivere nonché l'eventuale padding di allineamento da anteporre loro (che verranno disscussi più avanti).
 
 ### Test degli input
 
@@ -243,6 +261,8 @@ Ad ogni scrittore, prima del formattatore, viene anteposta la stringa *"%N$"*, d
 
 Solo nel caso l'input sia passato da linea di comando, il tool somma la dimensione del marcatore sinistro e il numero di caratteri di allineamento ritornati dall'algoritmo precedente: se non corrisponde alla dimensione degli indirizzi in caratteri (4 o 8 a seconda dell'indirizzamento), significa che, durante la ricerca della posizione nello stack dell'input, anche se la stringa non avesse avuto anteposto il marcatore sinistro, il pattern sarebbe comunque stato disallineato e quindi il paddign di allineamento deve essere incrementato della dimensione del marcatore sinistro e del numero di caratteri di allineamento (affinché la serie di indirizzi sia effettivamente allineata alle posizioni calcolate). Questo non è necessario per gli input passati a run-time in quanto, sempre supponendo che siano salvati in variabili semplici, solo allineati rispetto allo stack. Quindi il pattern da cercare, essendo contenibile esattamente in una singola entry e posizionato all'inizio della stringa ricerca, non sarebbe mai spezzato tra due entry consecutive.
 
+Nel caso in cui il controllo sulla dimensione della stringa fosse attivo (proprietà **input_len_control** del file di configurazione), nel caso in cui cui la dimensione della stringa finale fosse superiore alla dimensione massima stampata dell'input (ovvero la dimensione di riferimento per la generazione delle stringhe di ricerca), il tool procede a scartare l'input.
+
 A questo punto la stringa finale viene testata:  
 1. Nel caso in cui il processo termini correttamente il tool suppone che l'exploit sia andato a buon fine e riporta la risposta ricevuta dal processo.
 
@@ -255,7 +275,7 @@ A questo punto la stringa finale viene testata:
    3. Serie di scrittori;
    4. padding finale per rispettare la dimensione degli input, nel caso in cui l'input in test sia passato da linea di comando.
 
-Anche qui vale quanto scritto appena sopra per l'incremento del padding di allineamento. Ovviamente, in questo caso, se è necessario aumentare il padding di allineamento, sarà necessario ridurre il padding dello scrittore. Se questo non è possibile, il tentativo termina e l'input viene scartato. 
+Anche qui vale quanto scritto appena sopra per il controllo sulla dimensione e l'incremento del padding di allineamento. Ovviamente, in questo caso, se il padding di allineamento viene aumentato, sarà necessario ridurre il padding dello scrittore. Se questo non è possibile, il tentativo termina e l'input viene scartato. 
 
 La nuova stringa viene quindi testata. Nel caso in cui il processo termini correttamente il tool suppone che l'exploit sia andato a buon fine e riporta la risposta ricevuta dal processo, altrimenti procede a testare l'input successivo.
 
