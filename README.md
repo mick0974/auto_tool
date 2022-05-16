@@ -68,7 +68,7 @@ dove:
 - **value**: input da passare al programma target. Può assumere due valori:
 
   - una stringa vuota, nel caso in cui il programma target non inponga vincoli sull'input per proseguire con la sua esecuzione;
-  - il valore specifico atteso dal programma target per quell'input, se vi inpone dei vincoli.
+  - il valore specifico atteso dal programma target per quell'input, se vi inponga dei vincoli.
 
   Nel caso in cui venga assegnata una stringa vuota, il tool considera l'input come testabile per l'exploit.
 
@@ -108,12 +108,16 @@ Una volta verificati gli input passati da linea di comando e i valori assegnati 
 Per evitare di passare al programma target delle stringhe vuote come input, il tool sostituisce a ciascun elemento con **value** una stringa vuota la stringa *"PPPP"* e associa ad ogni input una nuova etichetta, chiamata **free**, che specifica se il **value** dell'input era una stringa vuota (*True*) o meno (*False*).
 
 ### Formattazione dei valori in byte e decisione della write size
-Il tool decide i parametri con cui i valori verranno formattati in byte:  
-**Endianess**: _<_ per little endian, _>_ per big endian o stringa vuota se non specificata (viene impiegata quella del processore in uso).  
-**Byte size**: _Q_ per 8, _L_ per 4, _H_ per 2, _B_ per 1.
 
-Il tool, per evitare di superare il limite superiore di caratteri di stampa garantiti dalla printf, spezza il valore da scrivere in più sottovalori, fino a che la loro somma non è inferiore a 4000.  
-Partendo dalla dimensione di scrittura specificata nella proprietà **write_size** del fiele di configurazione, il tool itera più volte spezzando ad ogni ciclo il sottovalore massimo nella dimensione di scrittura successiva (in ordine decrescente 8, 4, 2 e 1): un valore esadecimale come _0x003f0046_ pari a 4128838 verrebbe spezzato in _0x003f_ pari a 63 e _0x0046_ pari a 70, e l'iterazione terminerebbe con i sottovalori _0x003f_ e _0x0046_ poiché la loro somma 133 risulterebbe minore di 4095.
+Prima di iniziare a testare gli input, il tool esegue una serie di operazioni sul valore da scrivere e l'indirizzo target:
+
+1. Decide i parametri con cui il valore (o i valori, come si vedrà in seguito) da scrivere verrà formattato in byte:  
+   - Endiannes : _<_ per little endian, _>_ per big endian o stringa vuota se non specificata (viene impiegata quella del processore in uso);
+   - Byte size: _Q_ per 8, _L_ per 4, _H_ per 2, _B_ per 1;
+2. Spezza il valore da scrivere in più sottovalori, in modo che la loro somma sia inferiore a 4000, per evitare di superare il limite superiore di caratteri di stampa garantiti dalla *printf()*: partendo dalla dimensione di scrittura specificata nella proprietà **write_size** del file di configurazione, il tool itera più volte spezzando ad ogni ciclo il sottovalore massimo nella dimensione di scrittura successiva (in ordine decrescente 8, 4, 2 e 1). Ad esempio, un valore esadecimale come _0x003f0046_ pari a 4128838 verrebbe spezzato in _0x003f_ pari a 63 e _0x0046_ pari a 70, e l'iterazione terminerebbe con i sottovalori _0x003f_ e _0x0046_ poiché la loro somma, 133, risulta minore di 4095. Il tool salva poi i nuovi sottovalori generati e le relative dimensioni di scrittura;
+3. Determina la serie di indirizzi target a cui scrivere, nel caso in cui il valore non sia più singolo. Per ciascun sottovalore, l'indirizzo in cui dovrebbe essere scritto corrisponde a quello del sottovalore precedente incrementato della dimensione di scrittura di quest'ultimo. Per caso del primo sottovalore, l'indirizzo corrisponderà all'originale indirizzo target;
+
+
 
 ### Test degli input
 
@@ -230,33 +234,30 @@ Vediamo ora come funziona l'algoritmo di ricerca all'interno dello stack:
 Ottenuta la posizione iniziale dell'input, il tool procede a creare la stringa da utilizzare per l'exploit del programma target. 
 
 La forma della stringa finale è:  
-1. Padding (di lunghezza pari al valore da scrivere) e scrittore, ripetuti per il numero di scritture da effettuare
-3. Serie di indirizzi a cui scrivere
-5. Padding finale per rispettare la dimensione degli input, nel caos in cui l'input in test sia passato da linea di comando.
+1. Serie di scrittori;
+1. (Padding di allineamento);
+3. Serie di indirizzi a cui scrivere;
+5. Padding finale per rispettare la dimensione degli input, nel caso in cui l'input in test sia passato da linea di comando.
 
-Alcune considerazioni sulla stringa finale:  
-- con l'algoritmo precedente abbiamo determinato la posizione di partenza della format string all'interno dello stack: a partire da quel valore ricalcoliamo un'ultima volta la posizione nello stack degli indirizzi per la parte (2) aggiungendo un offset fisso.
-- la parte (5), cioè il padding finale, è presente solo nel caso in cui gli input siano passati attraverso argv.
-- nel caso in cui l'input sia specificato a tempo di esecuzione (ad esempio in risposta ad una scanf) il marcatore sinistro e l'input di allineamento non vengono anteposti alla stringa finale poiché gli input raccolti a runtime, a differenza di argv, sono allineati rispetto agli indirizzi dello stack e la presenza di un marker sinistro li sposterebbe.
-- nel caso in cui l'input sia specificato come argv è necessario controllare se il numero di caratteri di padding di allineamento ritornato dall'algoritmo precedente sommato alla lunghezza del marcatore sinistro sia uguale alla dimensione degli indirizzi (4 o 8 byte).
-  In caso di uguaglianza non è necessario anteporre nè il marcatore nè il padding di allineamento rispetto ad esso, in caso contrario si mantiene il marcatore e si aggiunge il corrispettivo padding.  
+Ad ogni scrittore, prima del formattatore, viene anteposta la stringa *"%N$"*, dove *N* rappresenta la posizione nello stack dell'indirizzo, specificato nel punto (3), a cui deve scrivere. La sua posizione è calcolata partendo dalla posizione iniziale dell'input nello stack, calcolata con l'algoritmo precedente, incrementata in base al numero di caratteri della stringa che precedono l'indirizzo. Se necessario, viene poi aggiunto un padding di allineamento prima della serie di indirizzi. 
 
-Una volta generata la stringa finale questa viene testata:  
-1. nel caso in cui il processo termini correttamente il tool suppone che l'exploit sia andato a buon fine e riporta la risposta ricevuta dal processo.
-2. nel caso in cui il processo termini con un segmentation fault il tool ritenta l'exploit ricostruendo la stringa in modo differente solo se nessun indirizzo contiene un null byte (altrimenti l'exploit risulta impossibile):
+Solo nel caso l'input sia passato da linea di comando, il tool somma la dimensione del marcatore sinistro e il numero di caratteri di allineamento ritornati dall'algoritmo precedente: se non corrisponde alla dimensione degli indirizzi in caratteri (4 o 8 a seconda dell'indirizzamento), significa che, durante la ricerca della posizione nello stack dell'input, anche se la stringa non avesse avuto anteposto il marcatore sinistro, il pattern sarebbe comunque stato disallineato e quindi il paddign di allineamento deve essere incrementato della dimensione del marcatore sinistro e del numero di caratteri di allineamento (affinché la serie di indirizzi sia effettivamente allineata alle posizioni calcolate). Questo non è necessario per gli input passati a run-time in quanto, sempre supponendo che siano salvati in variabili semplici, solo allineati rispetto allo stack. Quindi il pattern da cercare, essendo contenibile esattamente in una singola entry e posizionato all'inizio della stringa ricerca, non sarebbe mai spezzato tra due entry consecutive.
 
-   1. serie di indirizzi a cui scrivere
-   2. padding (di lunghezza pari al valore da scrivere)
-   3. posizione nello stack dell'indirizzo a cui scrivere (ricalcolata in base alla nuova forma della stringa)
-   4. (1) e (2) vengono ripetuti in serie a seconda del numero di scritture necessarie
-   5. padding finale per rispettare la dimensione degli input
+A questo punto la stringa finale viene testata:  
+1. Nel caso in cui il processo termini correttamente il tool suppone che l'exploit sia andato a buon fine e riporta la risposta ricevuta dal processo.
 
-  dove la lunghezza del padding del punto (2) viene ridotta della lunghezza degli indirizzi; nel caso in cui il padding sia più corto degli indirizzi l'exploit risulta impossibile.  
-  Nel caso in cui l'input sia specificato a tempo di esecuzione (ad esempio in risposta ad una scanf) il marcatore sinistro e il padding di allineamento non vengono anteposti alla stringa finale poiché gli input raccolti a runtime, a differenza di argv, sono allineati rispetto agli indirizzi dello stack e la presenza di un marker sinistro li sposterebbe.  
-  Nel caso in cui l'input sia specificato come argv è necessario controllare se il numero di caratteri di padding di allineamento ritornato dall'algoritmo precedente sommato alla lunghezza del marcatore sinistro sia uguale alla dimensione degli indirizzi (4 o 8 byte).  
-  In caso di uguaglianza non è necessario anteporre nè il marcatore nè il padding di allineamento rispetto ad esso, in caso contrario si mantiene il marcatore, si aggiunge il corrispettivo padding e si riduce la lunghezza dei padding del punto (2) della lunghezza di questi.  
+2. Nel caso in cui il processo termini con un segmentation fault il tool ritenta l'exploit modificanto la struttura stringa. Questa opzione è possibile sono se nessun indirizzo target, a prescindere da come sia passato l'input, non contenga null byte e il primo valore da scrivere sia inferiore alla dimensione in caratteri della serie di indirizzi più l'eventuale padding di allineamento, ricalcolato in base alla nuova forma, che la precede. Verificato ciò, il tool ricostruisce la nuova stringa, riducendo il padding del primo scrittore della quantità di caratteri che ora lo precedono e ricalcola la nuova posizione degli indirizzi target.
 
-  Se il processo termina correttamente il tool suppone che l'exploit sia andato a buon e riporta la risposta ricevuta dal processo, altrimenti in caso di segmentation fault l'exploit risulta impossibile.  
+   La nuova stringa può essere così schematizzata:
+   
+   1. (Padding di allineamento);
+   2. Serie di indirizzi;
+   3. Serie di scrittori;
+   4. padding finale per rispettare la dimensione degli input, nel caso in cui l'input in test sia passato da linea di comando.
+
+Anche qui vale quanto scritto appena sopra per l'incremento del padding di allineamento. Ovviamente, in questo caso, se è necessario aumentare il padding di allineamento, sarà necessario ridurre il padding dello scrittore. Se questo non è possibile, il tentativo termina e l'input viene scartato. 
+
+La nuova stringa viene quindi testata. Nel caso in cui il processo termini correttamente il tool suppone che l'exploit sia andato a buon fine e riporta la risposta ricevuta dal processo, altrimenti procede a testare l'input successivo.
 
 
 ## Test
