@@ -1,4 +1,4 @@
-gcc commandline.c -no-pie -fno-stack-protector -o commandline
+gcc commandline.c -m32 -no-pie -fno-stack-protector -o commandline
 
 
 

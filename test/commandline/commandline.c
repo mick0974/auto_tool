@@ -22,9 +22,9 @@ int main(int argc, char **argv)
     printf("Il valore di target è %i\n", target);
 
     if (target == 1)
-        printf("VINTO");
+        printf("VINTO\n");
 
-    printf("%p\n", &target);
+    printf("Indirizzo a run-time di target: %p\n", &target);
 
     return 0;
 }

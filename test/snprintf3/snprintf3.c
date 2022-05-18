@@ -14,11 +14,13 @@ int main(int argc, char **argv){
 
         if(i==0x7d9a22){
             printf("GOOD\n");
+            return 0;
         }
 
         printf("No way...let me give you a hint!\n");
         printf("buffer : [%s] (%d)\n", buffer, strlen(buffer));
         printf ("i = %d (%p)\n", i, &i);
-        return 0;
+
     }
+    return 0;
 }

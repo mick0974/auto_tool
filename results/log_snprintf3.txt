@@ -1,0 +1,19 @@
+Dimensione indirizzi: 8 byte
+Endian: little
+
+Input da linea di comando: [{'type': 'command_line_input', 'value': 'PPPP', 'free': True}, {'type': 'command_line_input', 'value': 'PPPP', 'free': True}, {'type': 'command_line_input', 'value': 'PPPP', 'free': True}]
+Input da passare durante l'esecuzione: []
+
+
+Inizio ricerca di input vulnerabili
+
+Input in test: {'type': 'command_line_input', 'value': 'PPPP', 'free': True}
+almeno un indirizzo target contiene un null byte che non può essere inviato a causa della categoria di input o della costruzione della fmt di exploit
+
+Input in test: {'type': 'command_line_input', 'value': 'PPPP', 'free': True}
+almeno un indirizzo target contiene un null byte che non può essere inviato a causa della categoria di input o della costruzione della fmt di exploit
+
+Input in test: {'type': 'command_line_input', 'value': 'PPPP', 'free': True}
+almeno un indirizzo target contiene un null byte che non può essere inviato a causa della categoria di input o della costruzione della fmt di exploit
+
+Nessun input exploitabile individuato

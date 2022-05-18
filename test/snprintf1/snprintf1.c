@@ -7,14 +7,13 @@ int main(int argc, char **argv){
     printf("%p\n", &i);
     char buffer[64];
 
-    //printf("Argv = %s\n", argv[1]);
     snprintf(buffer, sizeof buffer, argv[1]);
     buffer[sizeof (buffer) - 1] = '\0';
-    //printf("buffer = %s\n", buffer);
     printf("Change i's value from 1 -> 500. ");
 
     if(i==500){
         printf("GOOD\n");
+        return 0;
     }
 
     printf("No way...let me give you a hint!\n");
