@@ -1,0 +1,43 @@
+{
+  "input": [
+    {
+      "type": "command_line_input",
+      "value": "100"
+    },
+    {
+      "type": "command_line_input",
+      "value": "2"
+    },
+    {
+      "type": "command_line_input",
+      "value": "7"
+    },
+    {
+      "type": "command_line_input",
+      "value": "4"
+    },
+    {
+      "type": "command_line_input",
+      "value": "3"
+    },
+    {
+      "type": "command_line_input",
+      "value": "0"
+    },
+    {
+      "type": "execution_input",
+      "marker": "Annoying initial input request to break our exploit tool: ",
+      "value": ""
+    },
+    {
+      "type": "execution_input",
+      "marker": "Insert a number: ",
+      "value": ""
+    },
+    {
+      "type": "execution_input",
+      "marker": "Annoying final input request to break our exploit tool: ",
+      "value": ""
+    }
+  ]
+}

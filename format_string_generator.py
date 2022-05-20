@@ -1,6 +1,3 @@
-import exceptions
-
-
 class DirectFmtGenerator:
     def __init__(self):
         self.writers = list()
@@ -17,7 +14,7 @@ class DirectFmtGenerator:
         parameters = "%" + str(self.direct_parameter_num - 1) + "$p" if self.direct_parameter_num > 1 else ""
 
         if len(parameters) > max_length:
-            raise exceptions.InputTooLittleError
+            return ["input_too_little", "l'input stampato non è abbastanza lungo da permettere di continuare la ricerca della fmt nello stack\n\n"]
         else:
             dim = len(parameters) + len(self.temp_address)
             reader_count = 1
@@ -35,7 +32,7 @@ class DirectFmtGenerator:
                 padding = "G" * (max_length - dim)
                 return self.temp_address + parameters + padding
             else:
-                raise exceptions.InputTooLittleError
+                return ["input_too_little", "l'input stampato non è abbastanza lungo da permettere di continuare la ricerca della fmt nello stack\n\n"]
 
     def generate_next_fmt_for_find_pattern_segfault(self, max_length):
         if self.direct_parameter_num > 1:
@@ -48,7 +45,7 @@ class DirectFmtGenerator:
             padding = "G" * (max_length - len(self.temp_address + parameters))
             return self.temp_address + parameters + padding
         else:
-            raise exceptions.InputTooLittleError
+            return ["input_too_little", "l'input stampato non è abbastanza lungo da permettere di continuare la ricerca della fmt nello stack\n\n"]
 
     def generate_next_fmt_for_find_pattern_markers_not_found(self, max_length):
         parameters = "%" + str(self.direct_parameter_num - 1) + "$p" if self.direct_parameter_num > 1 else ""
@@ -57,10 +54,8 @@ class DirectFmtGenerator:
         effective_len = len(parameters) + address_size
         printed_len = address_size + (2 + (address_size * 2) if parameters != "" else 0)
 
-        print("effective_len = " + str(effective_len))
-        print("printed_len = " + str(printed_len))
         if printed_len >= max_length:
-            raise exceptions.InputTooLittleError
+            return ["input_too_little", "l'input stampato non è abbastanza lungo da permettere di continuare la ricerca della fmt nello stack\n\n"]
         else:
             reader_count = 1
             while True:
@@ -76,7 +71,7 @@ class DirectFmtGenerator:
                     parameters += reader
 
             if reader_count < 2:
-                raise exceptions.InputTooLittleError
+                return ["input_too_little", "l'input stampato non è abbastanza lungo da permettere di continuare la ricerca della fmt nello stack\n\n"]
             else:
                 padding_printed_len = "G" * (max_length - printed_len)
                 padding_effective_len = "G" * (max_length - (effective_len + len(padding_printed_len)))

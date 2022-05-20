@@ -9,7 +9,7 @@ int main(int argc, char **argv){
 
     snprintf(buffer, sizeof buffer, argv[1]);
     buffer[sizeof (buffer) - 1] = '\0';
-    printf("Change i's value from 1 -> 500. ");
+    printf("Change i's value from 1 to 500. ");
 
     if(i==500){
         printf("GOOD\n");

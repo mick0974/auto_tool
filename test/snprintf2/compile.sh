@@ -1,1 +1,0 @@
-gcc snprintf2.c -no-pie -fno-stack-protector -o snprintf2

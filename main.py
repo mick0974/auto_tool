@@ -3,6 +3,7 @@ import sys
 import argparse
 import configparser
 import json
+import math
 
 import exploit
 
@@ -25,8 +26,6 @@ class Opt:
 
         try:
             self.target_address = int(args.target_address, 16 if "0x" in args.target_address else 10)
-            print("indirizzo")
-            print(self.target_address)
         except ValueError:
             print("L'indirizzo fornito non è valido")
             sys.exit(1)
@@ -65,11 +64,13 @@ class Opt:
                     if input_elem["type"] == "execution_input":
                         self.during_execution_input_list.append(input_elem)
                         if "marker" not in input_elem.keys() or "value" not in input_elem.keys():
-                            raise KeyError
+                            print("Il file contenente gli input fornito non è strutturato correttamente")
+                            exit(1)
                     elif input_elem["type"] == "command_line_input":
                         self.command_line_input_list.append(input_elem)
                         if "value" not in input_elem.keys():
-                            raise KeyError
+                            print("Il file contenente gli input fornito non è strutturato correttamente")
+                            exit(1)
         except EnvironmentError:
             print("Il file contenente gli input fornito non è stato trovato")
             sys.exit(1)
@@ -84,12 +85,20 @@ class Opt:
                 config.read("./options.ini")
 
                 self.configs["bytes_to_write"] = config.getint("Options", "bytes_to_write")
+                if math.ceil(len(hex(self.target_value).replace("0x", "")) / 2) > self.configs["bytes_to_write"]:
+                    print("Il valore da scrivere supera il numero di byte da scrivere settato nel file di configurazione")
+                    exit(1)
+                elif self.configs["bytes_to_write"] not in [1, 2, 4, 8]:
+                    print("Il numero di byte da scrivere settato nel file di configurazione non rientra tra quelli previsti")
+                    exit(1)
                 self.configs["wait_time_marker"] = config.getint("Options", "wait_time_marker")
                 if self.configs["wait_time_marker"] < 1 and self.configs["wait_time_marker"] != -1:
-                    raise ValueError
+                    print("Uno o più valori forniti nel file di configurazione non sono validi")
+                    exit(1)
                 self.configs["wait_time_no_marker"] = config.getint("Options", "wait_time_no_marker")
                 if self.configs["wait_time_no_marker"] < 1:
-                    raise ValueError
+                    print("Uno o più valori forniti nel file di configurazione non sono validi")
+                    exit(1)
                 self.configs["input_len_control"] = config.getboolean("Options", "input_len_control")
                 self.configs["log_dir"] = config.get("Options", "log_dir")
             else:
@@ -103,4 +112,4 @@ if __name__ == "__main__":
     opts = Opt()
 
     exploit = exploit.Exploit(target=opts.target, value=opts.target_value, target_address=opts.target_address,
-                              command_line_input_list=opts.command_line_input_list, during_execution_input_list = opts.during_execution_input_list, configs=opts.configs)
+                              command_line_input_list=opts.command_line_input_list, during_execution_input_list=opts.during_execution_input_list, configs=opts.configs)
