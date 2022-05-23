@@ -108,6 +108,7 @@ class Opt:
             print("Uno o più valori forniti nel file di configurazione non sono validi")
             sys.exit(1)
 
+
 if __name__ == "__main__":
     opts = Opt()
 

